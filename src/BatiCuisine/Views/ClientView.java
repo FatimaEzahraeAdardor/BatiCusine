@@ -1,0 +1,123 @@
+package BatiCuisine.Views;
+
+import BatiCuisine.Entities.Client;
+import BatiCuisine.Services.ClientService;
+
+import java.sql.SQLException;
+import java.util.List;
+import java.util.Optional;
+import java.util.Scanner;
+
+public class ClientView {
+    ClientService clientService = new ClientService();
+    Scanner scanner = new Scanner(System.in);
+
+    public void create() throws SQLException {
+        System.out.println("--- Ajout d'un nouveau client ---");
+        System.out.print("Entrez le nom du client : ");
+        String name = scanner.nextLine();
+        System.out.print("Entrez l'adresse du client : ");
+        String address = scanner.nextLine();
+        System.out.print("Entrez le numéro de téléphone du client : ");
+        String phone = scanner.nextLine();
+        System.out.println("Choisissez si le client est professionnel :");
+        System.out.println("1. Client professionnel");
+        System.out.println("2. Client non professionnel");
+        int choice = scanner.nextInt();
+        scanner.nextLine();
+        boolean isProfessional;
+        if (choice == 1) {
+            isProfessional = true;
+        } else if (choice == 2) {
+            isProfessional = false;
+        } else {
+            System.out.println("Choix invalide. Le client sera enregistré comme non professionnel par défaut.");
+            isProfessional = false;
+        }
+
+        Client client = new Client(name, address, phone, isProfessional);
+        clientService.save(client);
+
+        System.out.println("Nouveau client ajouté !");
+        System.out.println("Nom : " + name);
+        System.out.println("Adresse : " + address);
+        System.out.println("Téléphone : " + phone);
+
+        System.out.println("Vous pouvez maintenant créer le projet pour " + name + ".");
+    }
+
+    public void update() throws SQLException {
+        System.out.println("--- Modifier un client ---");
+        System.out.print("Entrez l'identifiant du client à modifier : ");
+        int id = scanner.nextInt();
+        scanner.nextLine();
+
+        Optional<Client> existingClient = clientService.findById(id);
+        if (existingClient.isPresent()) {
+            Client client = existingClient.get();
+
+            System.out.println("Modifier le nom (actuel : " + client.getName() + ") : ");
+            String name = scanner.nextLine();
+            if (!name.trim().isEmpty()) {
+                client.setName(name);
+            }
+
+            System.out.println("Modifier l'adresse (actuelle : " + client.getAddress() + ") : ");
+            String address = scanner.nextLine();
+            if (!address.trim().isEmpty()) {
+                client.setAddress(address);
+            }
+
+            System.out.println("Modifier le téléphone (actuel : " + client.getPhone() + ") : ");
+            String phone = scanner.nextLine();
+            if (!phone.trim().isEmpty()) {
+                client.setPhone(phone);
+            }
+
+            System.out.println("Le client est-il professionnel (actuel : " + (client.isProfessional() ? "Oui" : "Non") + ") ?");
+            System.out.println("1. Oui");
+            System.out.println("2. Non");
+            int choice = scanner.nextInt();
+            scanner.nextLine();
+
+            if (choice == 1) {
+                client.setProfessional(true);
+            } else if (choice == 2) {
+                client.setProfessional(false);
+            } else {
+                System.out.println("Choix invalide. Statut professionnel inchangé.");
+            }
+
+            clientService.update(client);
+            System.out.println("Client mis à jour avec succès !");
+        } else {
+            System.out.println("Aucun client trouvé avec l'identifiant : " + id);
+        }
+    }
+
+    public void delete() throws SQLException {
+        System.out.println("--- Supprimer un client ---");
+        System.out.print("Entrez l'identifiant du client à supprimer : ");
+        int id = scanner.nextInt();
+        scanner.nextLine();
+        Optional<Client> existingClient = clientService.findById(id);
+        if (existingClient.isPresent()) {
+            clientService.delete(id);
+            System.out.println("Client supprimé avec succès !");
+        } else {
+            System.out.println("Aucun client trouvé avec l'identifiant : " + id);
+        }
+    }
+
+    public void displayAllClient() throws SQLException {
+        System.out.println("--- Liste de tous les clients ---");
+        List<Client> clients = clientService.findAll();
+        if (clients.isEmpty()) {
+            System.out.println("Aucun client trouvé.");
+        } else {
+            for (Client client : clients) {
+                System.out.println(client.toString());
+            }
+        }
+    }
+}
