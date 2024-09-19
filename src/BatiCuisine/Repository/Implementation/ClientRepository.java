@@ -14,7 +14,7 @@ public class ClientRepository implements ClientInterface {
         this.connection = DataBaseConnection.getInstance().getConnection();
     }
     @Override
-    public Client save(Client client) throws SQLException {
+    public Client save(Client client){
         String query = "INSERT INTO clients(name, address, phone, isprofessional) VALUES(?,?,?,?)";
         try (PreparedStatement preparedStatement = connection.prepareStatement(query, Statement.RETURN_GENERATED_KEYS)) {
             preparedStatement.setString(1, client.getName());
@@ -28,12 +28,14 @@ public class ClientRepository implements ClientInterface {
             }
             return client;
         }
+        catch (SQLException e){
+            System.out.println(e.getMessage());
+        }
     }
-
     @Override
-    public Optional<Client> findById(int id) throws SQLException {
+    public Optional<Client> findById(int id){
         String query = "SELECT * FROM clients WHERE id=?";
-        try (PreparedStatement preparedStatement = connection.prepareStatement(query)) {
+        try (PreparedStatement preparedStatement = connection.prepareStatement(query)){
             preparedStatement.setInt(1, id);
             ResultSet resultSet = preparedStatement.executeQuery();
             if (resultSet.next()) {
@@ -47,11 +49,14 @@ public class ClientRepository implements ClientInterface {
             } else {
                 return Optional.empty();
             }
+        }catch (SQLException e){
+            System.out.println(e.getMessage());
         }
+        return Optional.empty();
     }
 
     @Override
-    public List<Client> findAll() throws SQLException {
+    public List<Client> findAll(){
         String query = "SELECT * FROM clients";
         List<Client> clients = new ArrayList<>();
         try (PreparedStatement preparedStatement = connection.prepareStatement(query)) {
@@ -66,11 +71,14 @@ public class ClientRepository implements ClientInterface {
                 clients.add(client);
             }
         }
+        catch (SQLException e){
+            System.out.println(e.getMessage());
+        }
         return clients;
     }
 
     @Override
-    public Optional<Client> update(Client client) throws SQLException {
+    public Client update(Client client){
         String query = "UPDATE clients SET name = ?, address = ?, phone = ?, isprofessional = ? WHERE id = ?";
         try (PreparedStatement preparedStatement = connection.prepareStatement(query)) {
             preparedStatement.setString(1, client.getName());
@@ -80,25 +88,31 @@ public class ClientRepository implements ClientInterface {
             preparedStatement.setInt(5, client.getId());
             int affectedRows = preparedStatement.executeUpdate();
             if (affectedRows > 0) {
-                return Optional.of(client);
+                return client;
             } else {
-                return Optional.empty();
+                return null;
             }
+        }catch (SQLException e){
+            System.out.println(e.getMessage());
         }
+        return null;
     }
 
     @Override
-    public Boolean delete(int id) throws SQLException {
+    public Boolean delete(int id){
         String query = "DELETE FROM clients WHERE id=?";
         try (PreparedStatement preparedStatement = connection.prepareStatement(query)) {
             preparedStatement.setInt(1, id);
             int affectedRows = preparedStatement.executeUpdate();
             return affectedRows > 0;
+        }catch (SQLException e){
+            System.out.println(e.getMessage());
         }
+        return false;
     }
 
     @Override
-    public Optional<Client> findByName(String name) throws SQLException {
+    public Optional<Client> findByName(String name){
         String query = "SELECT * FROM clients WHERE name = ?";
         try (PreparedStatement preparedStatement = connection.prepareStatement(query)) {
             preparedStatement.setString(1, name);
@@ -114,6 +128,9 @@ public class ClientRepository implements ClientInterface {
             } else {
                 return Optional.empty();
             }
+        }catch (SQLException e){
+            System.out.println(e.getMessage());
         }
+        return Optional.empty();
     }
 }
