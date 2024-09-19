@@ -10,8 +10,7 @@ public class Quote {
     private boolean isAccepted;
     private Project project;
 
-    public Quote(int id, double estimatedAmount, LocalDate issueDate, LocalDate validatedDate, boolean isAccepted, Project project) {
-        this.id = id;
+    public Quote(double estimatedAmount, LocalDate issueDate, LocalDate validatedDate, boolean isAccepted, Project project) {
         this.estimatedAmount = estimatedAmount;
         this.issueDate = issueDate;
         this.validatedDate = validatedDate;

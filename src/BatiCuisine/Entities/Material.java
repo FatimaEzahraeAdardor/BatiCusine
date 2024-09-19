@@ -1,22 +1,30 @@
 package BatiCuisine.Entities;
 
 public class Material extends Component {
+    private int id;
     private double unitCost;
     private double quantity;
     private double transportCost;
     private double coefficientQuality;
-    private Component component;
-
-    public Material(int id, String name, String componentType, double vatRate, Project project, double unitCost, double quantity, double transportCost, double coefficientQuality, Component component) {
-        super(id, name, componentType, vatRate, project);
+    public Material(String name, String componentType, double vatRate, Project project, double unitCost, double quantity, double transportCost, double coefficientQuality) {
+        super( name, componentType, vatRate, project);
         this.unitCost = unitCost;
         this.quantity = quantity;
         this.transportCost = transportCost;
         this.coefficientQuality = coefficientQuality;
-        this.component = component;
     }
 
     public Material(){}
+
+    @Override
+    public int getId() {
+        return id;
+    }
+
+    @Override
+    public void setId(int id) {
+        this.id = id;
+    }
 
     public double getUnitCost() {
         return unitCost;
@@ -50,11 +58,8 @@ public class Material extends Component {
         this.coefficientQuality = coefficientQuality;
     }
 
-    public Component getComponent() {
-        return component;
-    }
-
-    public void setComponent(Component component) {
-        this.component = component;
+    @Override
+    public Double calculateTotalCost() {
+        return null;
     }
 }

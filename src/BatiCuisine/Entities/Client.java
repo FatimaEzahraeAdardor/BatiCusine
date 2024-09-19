@@ -11,8 +11,6 @@ public class Client {
     private String phone;
     private boolean isProfessional;
     private List<Project> projects;
-
-
     public Client( String name, String address, String phone, boolean isProfessional) {
         this.name = name;
         this.address = address;

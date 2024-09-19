@@ -16,6 +16,16 @@ public class Labor extends Component {
 
     }
 
+    @Override
+    public int getId() {
+        return id;
+    }
+
+    @Override
+    public void setId(int id) {
+        this.id = id;
+    }
+
     public double getHourlyCost() {
         return hourlyCost;
     }
@@ -39,7 +49,6 @@ public class Labor extends Component {
     public void setWorkerProductivity(double workerProductivity) {
         this.workerProductivity = workerProductivity;
     }
-
 
     @Override
     public Double calculateTotalCost() {
