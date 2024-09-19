@@ -12,7 +12,7 @@ public class ClientView {
     ClientService clientService = new ClientService();
     Scanner scanner = new Scanner(System.in);
 
-    public void create() throws SQLException {
+    public void create() {
         System.out.println("--- Ajout d'un nouveau client ---");
         System.out.print("Entrez le nom du client : ");
         String name = scanner.nextLine();
@@ -20,15 +20,13 @@ public class ClientView {
         String address = scanner.nextLine();
         System.out.print("Entrez le numéro de téléphone du client : ");
         String phone = scanner.nextLine();
-        System.out.println("Choisissez si le client est professionnel :");
-        System.out.println("1. Client professionnel");
-        System.out.println("2. Client non professionnel");
-        int choice = scanner.nextInt();
-        scanner.nextLine();
+        System.out.println("Choisissez si le client est professionnel (oui/non) :");
+        String choice = scanner.nextLine();
         boolean isProfessional;
-        if (choice == 1) {
+
+        if (choice.equalsIgnoreCase("oui")) {
             isProfessional = true;
-        } else if (choice == 2) {
+        } else if (choice.equalsIgnoreCase("non")) {
             isProfessional = false;
         } else {
             System.out.println("Choix invalide. Le client sera enregistré comme non professionnel par défaut.");
@@ -42,11 +40,10 @@ public class ClientView {
         System.out.println("Nom : " + name);
         System.out.println("Adresse : " + address);
         System.out.println("Téléphone : " + phone);
-
         System.out.println("Vous pouvez maintenant créer le projet pour " + name + ".");
     }
 
-    public void update() throws SQLException {
+    public void update(){
         System.out.println("--- Modifier un client ---");
         System.out.print("Entrez l'identifiant du client à modifier : ");
         int id = scanner.nextInt();
@@ -73,21 +70,19 @@ public class ClientView {
             if (!phone.trim().isEmpty()) {
                 client.setPhone(phone);
             }
-
             System.out.println("Le client est-il professionnel (actuel : " + (client.isProfessional() ? "Oui" : "Non") + ") ?");
             System.out.println("1. Oui");
             System.out.println("2. Non");
-            int choice = scanner.nextInt();
+            String choice = scanner.nextLine();
             scanner.nextLine();
 
-            if (choice == 1) {
+            if (choice.equalsIgnoreCase("oui")) {
                 client.setProfessional(true);
-            } else if (choice == 2) {
+            } else if (choice.equalsIgnoreCase("non")) {
                 client.setProfessional(false);
             } else {
                 System.out.println("Choix invalide. Statut professionnel inchangé.");
             }
-
             clientService.update(client);
             System.out.println("Client mis à jour avec succès !");
         } else {
