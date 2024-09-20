@@ -12,7 +12,7 @@ public interface LaborInterface {
 
     List<Labor> findAll() ;
 
-    Client update(Labor labor);
+    Labor update(Labor labor);
 
     Boolean delete(int id);
 

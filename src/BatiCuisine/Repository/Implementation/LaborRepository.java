@@ -3,9 +3,11 @@ package BatiCuisine.Repository.Implementation;
 import BatiCuisine.Config.DataBaseConnection;
 import BatiCuisine.Entities.Client;
 import BatiCuisine.Entities.Labor;
+import BatiCuisine.Entities.Project;
 import BatiCuisine.Repository.Interface.LaborInterface;
 
 import java.sql.*;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -41,21 +43,77 @@ public class LaborRepository implements LaborInterface {
 
     @Override
     public Optional<Labor> findById(int id) {
+        String query = "SELECT * FROM labor WHERE id = ?";
+        try (PreparedStatement preparedStatement = connection.prepareStatement(query)) {
+            preparedStatement.setInt(1, id);
+            ResultSet resultSet = preparedStatement.executeQuery();
+
+            if (resultSet.next()) {
+                Labor labor = new Labor();
+                 labor.setName(resultSet.getString("name"));
+                 labor.setVatRate(resultSet.getDouble("vatrate"));;
+                labor.setHourlyCost(resultSet.getDouble("hourlycost"));
+                labor.setWorkingHours(resultSet.getDouble("workinghours"));
+                labor.setWorkerProductivity(resultSet.getDouble("workerproductivity"));
+                return Optional.of(labor);
+            }
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+        }
         return Optional.empty();
     }
 
     @Override
     public List<Labor> findAll() {
+        String query = "SELECT * FROM labor";
+        List<Labor> labors = new ArrayList<>();
+        try (PreparedStatement preparedStatement = connection.prepareStatement(query)) {
+            ResultSet resultSet = preparedStatement.executeQuery();
+
+            if (resultSet.next()) {
+                Labor labor = new Labor();
+                labor.setName(resultSet.getString("name"));
+                labor.setVatRate(resultSet.getDouble("vatrate"));;
+                labor.setHourlyCost(resultSet.getDouble("hourlycost"));
+                labor.setWorkingHours(resultSet.getDouble("workinghours"));
+                labor.setWorkerProductivity(resultSet.getDouble("workerproductivity"));
+                labors.add(labor);
+                return labors;
+            }
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+        }
         return null;
     }
 
     @Override
-    public Client update(Labor labor) {
-        return null;
+    public Labor update(Labor labor) {
+        String query = "UPDATE labor SET name = ?, vatrate = ?, project_id = ?, hourlyrate = ?, hoursworked = ?, workerproductivity = ? WHERE id = ?";
+        try (PreparedStatement statement = connection.prepareStatement(query)) {
+            statement.setString(1, labor.getName());
+            statement.setDouble(2, labor.getVatRate());
+            statement.setInt(3, labor.getProject().getId());
+            statement.setDouble(4, labor.getHourlyCost());
+            statement.setDouble(5, labor.getWorkingHours());
+            statement.setDouble(6, labor.getWorkerProductivity());
+            statement.setInt(7, labor.getId());
+            statement.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return labor;
+
     }
 
     @Override
     public Boolean delete(int id) {
-        return null;
+        String query = "DELETE FROM labor WHERE id = ?";
+        try (PreparedStatement statement = connection.prepareStatement(query)) {
+            statement.setInt(1, id);
+            statement.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return true;
     }
 }
