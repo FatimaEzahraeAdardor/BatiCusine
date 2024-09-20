@@ -26,11 +26,11 @@ public class ClientRepository implements ClientInterface {
             if (generatedKeys.next()) {
                 client.setId(generatedKeys.getInt(1));
             }
-            return client;
         }
         catch (SQLException e){
             System.out.println(e.getMessage());
         }
+        return client;
     }
     @Override
     public Optional<Client> findById(int id){

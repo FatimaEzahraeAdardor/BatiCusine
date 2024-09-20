@@ -45,11 +45,11 @@ public class ClientView {
 
     public void update(){
         System.out.println("--- Modifier un client ---");
-        System.out.print("Entrez l'identifiant du client à modifier : ");
-        int id = scanner.nextInt();
+        System.out.print("Entrez le nom du client à modifier : ");
+        String nom = scanner.nextLine();
         scanner.nextLine();
 
-        Optional<Client> existingClient = clientService.findById(id);
+        Optional<Client> existingClient = clientService.findByName(nom);
         if (existingClient.isPresent()) {
             Client client = existingClient.get();
 
@@ -86,13 +86,13 @@ public class ClientView {
             clientService.update(client);
             System.out.println("Client mis à jour avec succès !");
         } else {
-            System.out.println("Aucun client trouvé avec l'identifiant : " + id);
+            System.out.println("Aucun client trouvé avec le nom : " + nom);
         }
     }
 
     public void delete() throws SQLException {
         System.out.println("--- Supprimer un client ---");
-        System.out.print("Entrez l'identifiant du client à supprimer : ");
+        System.out.print("Entrez le  du client à supprimer : ");
         int id = scanner.nextInt();
         scanner.nextLine();
         Optional<Client> existingClient = clientService.findById(id);

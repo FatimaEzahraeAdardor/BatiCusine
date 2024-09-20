@@ -13,12 +13,12 @@ public class Project {
     private Client client;
     List<Component> components;
 
-    public Project( String projectName, double profitMargin, double totalCost, String status, Client client) {
+    public Project( String projectName, double profitMargin, double totalCost, ProjectStatus status, Client client) {
         this.projectName = projectName;
         this.profitMargin = profitMargin;
         this.totalCost = totalCost;
         this.components = new ArrayList<>();
-        this.status = ProjectStatus.valueOf(status);
+        this.status = status;
         this.client = client;
 
     }
@@ -26,6 +26,8 @@ public class Project {
     public Project() {
 
     }
+
+
     public ProjectStatus getStatus() {
         return status;
     }

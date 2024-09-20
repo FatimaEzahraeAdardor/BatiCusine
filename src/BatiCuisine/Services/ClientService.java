@@ -15,11 +15,13 @@ public class ClientService {
     }
 
     public Client save(Client client){
-        Optional<Client> existingClient = clientRepository.findByName(client.getName());
-        if(existingClient.isPresent()){
+        Optional<Client> existingClient = findByName(client.getName());
+        if (existingClient.isPresent()) {
+            System.out.println("Client already exists. Please use a different Name.");
             return null;
         }
-      return clientRepository.save(client);
+        clientRepository.save(client);
+        return client;
   }
   public Optional<Client> findById(int id){
       return clientRepository.findById(id);
