@@ -100,13 +100,20 @@ public class MaterialRepository implements MaterialInterface {
             statement.setInt(8, material.getId());
             statement.executeUpdate();
         } catch (SQLException e) {
-            e.printStackTrace();
+            System.out.println(e.getMessage());
         }
         return material;
     }
 
     @Override
     public Boolean delete(int id) {
-        return null;
+        String query = "DELETE FROM materials WHERE id = ?";
+        try (PreparedStatement statement = connection.prepareStatement(query)) {
+            statement.setInt(1, id);
+            statement.executeUpdate();
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+        }
+        return true;
     }
 }

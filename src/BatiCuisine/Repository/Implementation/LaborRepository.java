@@ -99,7 +99,7 @@ public class LaborRepository implements LaborInterface {
             statement.setInt(7, labor.getId());
             statement.executeUpdate();
         } catch (SQLException e) {
-            e.printStackTrace();
+            System.out.println(e.getMessage());
         }
         return labor;
 
@@ -112,7 +112,7 @@ public class LaborRepository implements LaborInterface {
             statement.setInt(1, id);
             statement.executeUpdate();
         } catch (SQLException e) {
-            e.printStackTrace();
+            System.out.println(e.getMessage());
         }
         return true;
     }
