@@ -17,4 +17,8 @@ public class LaborService {
     public List<Labor> findAll(){
         return laborRepository.findAll();
     }
+    public Labor update(Labor labor){
+        return laborRepository.update(labor);
+    }
+
 }
