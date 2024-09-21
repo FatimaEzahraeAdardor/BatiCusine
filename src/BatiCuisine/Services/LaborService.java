@@ -3,6 +3,7 @@ package BatiCuisine.Services;
 import BatiCuisine.Entities.Labor;
 import BatiCuisine.Repository.Implementation.LaborRepository;
 
+import java.util.List;
 import java.util.Optional;
 
 public class LaborService {
@@ -12,5 +13,8 @@ public class LaborService {
     }
     public Optional<Labor> findById(int id){
         return laborRepository.findById(id);
+    }
+    public List<Labor> findAll(){
+        return laborRepository.findAll();
     }
 }
