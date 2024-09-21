@@ -89,7 +89,6 @@ public class ClientView {
             System.out.println("Aucun client trouvé avec le nom : " + nom);
         }
     }
-
     public void delete() throws SQLException {
         System.out.println("--- Supprimer un client ---");
         System.out.print("Entrez le  du client à supprimer : ");
@@ -103,7 +102,6 @@ public class ClientView {
             System.out.println("Aucun client trouvé avec l'identifiant : " + id);
         }
     }
-
     public void displayAllClient() throws SQLException {
         System.out.println("--- Liste de tous les clients ---");
         List<Client> clients = clientService.findAll();
