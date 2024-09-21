@@ -20,5 +20,8 @@ public class LaborService {
     public Labor update(Labor labor){
         return laborRepository.update(labor);
     }
+    public Boolean delete(int id){
+        return laborRepository.delete(id);
+    }
 
 }
