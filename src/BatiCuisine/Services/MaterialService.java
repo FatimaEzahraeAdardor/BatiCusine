@@ -24,5 +24,8 @@ public class MaterialService {
     public Material update(Material material){
         return materialRepository.update(material);
     }
+    public Boolean delete(int id){
+        return materialRepository.delete(id);
+    }
 
 }
