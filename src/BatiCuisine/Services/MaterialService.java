@@ -21,5 +21,8 @@ public class MaterialService {
     public List<Material> findAll(){
         return materialRepository.findAll();
     }
+    public Material update(Material material){
+        return materialRepository.update(material);
+    }
 
 }
