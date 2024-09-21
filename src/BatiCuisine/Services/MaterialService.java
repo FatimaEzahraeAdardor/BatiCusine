@@ -3,6 +3,7 @@ package BatiCuisine.Services;
 import BatiCuisine.Entities.Material;
 import BatiCuisine.Repository.Implementation.MaterialRepository;
 
+import java.util.List;
 import java.util.Optional;
 
 public class MaterialService {
@@ -17,4 +18,8 @@ public class MaterialService {
     public Optional<Material> findById(int id){
         return materialRepository.findById(id);
     }
+    public List<Material> findAll(){
+        return materialRepository.findAll();
+    }
+
 }
