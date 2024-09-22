@@ -3,6 +3,7 @@ package BatiCuisine.Repository.Implementation;
 import BatiCuisine.Config.DataBaseConnection;
 import BatiCuisine.Entities.Labor;
 import BatiCuisine.Entities.Material;
+import BatiCuisine.Entities.Project;
 import BatiCuisine.Repository.Interface.MaterialInterface;
 
 import java.sql.*;
@@ -115,5 +116,29 @@ public class MaterialRepository implements MaterialInterface {
             System.out.println(e.getMessage());
         }
         return true;
+    }
+
+    @Override
+    public List<Material> findByProject(Project project) {
+        List<Material> materials = new ArrayList<>();
+        String query = "SELECT * FROM materials WHERE project_id = ?";
+        try (PreparedStatement preparedStatement = connection.prepareStatement(query)) {
+            preparedStatement.setInt(1, project.getId());
+            ResultSet resultSet = preparedStatement.executeQuery();
+            while (resultSet.next()) {
+                Material material = new Material();
+                material.setId(resultSet.getInt("id"));
+                material.setName(resultSet.getString("name"));
+                material.setVatRate(resultSet.getDouble("vatrate"));
+                material.setUnitCost(resultSet.getDouble("unitcost"));
+                material.setQuantity(resultSet.getDouble("quantity"));
+                material.setTransportCost(resultSet.getDouble("transportcost"));
+                material.setCoefficientQuality(resultSet.getDouble("qualitycoefficient"));
+                materials.add(material);
+            }
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+        }
+        return materials;
     }
 }

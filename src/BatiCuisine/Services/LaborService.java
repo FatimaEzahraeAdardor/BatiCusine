@@ -1,6 +1,7 @@
 package BatiCuisine.Services;
 
 import BatiCuisine.Entities.Labor;
+import BatiCuisine.Entities.Project;
 import BatiCuisine.Repository.Implementation.LaborRepository;
 
 import java.util.List;
@@ -22,6 +23,9 @@ public class LaborService {
     }
     public Boolean delete(int id){
         return laborRepository.delete(id);
+    }
+    public List<Labor> findByProject(Project project) {
+        return laborRepository.findByProject(project);
     }
 
 }

@@ -33,4 +33,22 @@ public class ProjectRepository implements ProjectInterface {
         }
         return project;
     }
+    @Override
+    public Project update(Project project) {
+        String query = "UPDATE projects SET projectname = ?, profitmargin = ?, totalcost = ?, projectstatus = ?::project_status, client_id = ? WHERE id = ?";
+        try (PreparedStatement statement = connection.prepareStatement(query)) {
+            statement.setString(1, project.getProjectName());
+            statement.setDouble(2, project.getProfitMargin());
+            statement.setDouble(3, project.getTotalCost());
+            statement.setObject(4, project.getStatus().name());
+            statement.setInt(5, project.getClient().getId());
+            statement.setInt(6, project.getId());
+
+            statement.executeUpdate();
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+        }
+        return project;
+    }
+
 }

@@ -25,8 +25,8 @@ public class MaterialView {
             System.out.print("Entrez le coût de transport de ce matériau (€) : ");
             Double transportCost = scanner.nextDouble();
             System.out.print("Entrez le coefficient de qualité du matériau (1.0 = standard, > 1.0 = haute qualité) : ");
-            Double qualityCoefficient = scanner.nextDouble();
-            scanner.nextLine();
+            Double qualityCoefficient = getValidDoubleInput();
+//            scanner.nextLine();
             Material material = new Material(name, "Material",0.20, project, unitCost, quantity, transportCost, qualityCoefficient);
             materialRepository.save(material);
             System.out.println("Matériau ajouté avec succès !");
@@ -34,5 +34,14 @@ public class MaterialView {
 
         }while (scanner.nextLine().equalsIgnoreCase("y"));
 
+    }
+    private double getValidDoubleInput() {
+        while (true) {
+            try {
+                return Double.parseDouble(scanner.nextLine());
+            } catch (NumberFormatException e) {
+                System.out.print("Entrée invalide. Veuillez entrer un nombre valide: ");
+            }
+        }
     }
 }

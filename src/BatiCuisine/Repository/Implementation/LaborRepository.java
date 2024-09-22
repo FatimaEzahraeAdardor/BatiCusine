@@ -116,4 +116,27 @@ public class LaborRepository implements LaborInterface {
         }
         return true;
     }
+
+    @Override
+    public List<Labor> findByProject(Project project) {
+        List<Labor> labors = new ArrayList<>();
+        String query = "SELECT * FROM labor WHERE project_id = ?";
+        try (PreparedStatement preparedStatement = connection.prepareStatement(query)) {
+            preparedStatement.setInt(1, project.getId());
+            ResultSet resultSet = preparedStatement.executeQuery();
+            while (resultSet.next()) {
+                Labor labor = new Labor();
+                labor.setId(resultSet.getInt("id"));
+                labor.setName(resultSet.getString("name"));
+                labor.setVatRate(resultSet.getDouble("vatrate"));
+                labor.setHourlyCost(resultSet.getDouble("hourlyrate"));
+                labor.setWorkingHours(resultSet.getDouble("hoursworked"));
+                labor.setWorkerProductivity(resultSet.getDouble("workerproductivity"));
+                labors.add(labor);
+            }
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+        }
+        return labors;
+    }
 }

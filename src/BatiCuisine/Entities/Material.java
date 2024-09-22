@@ -60,6 +60,8 @@ public class Material extends Component {
 
     @Override
     public Double calculateTotalCost() {
-        return null;
+        Double costBeforeVatRate = (getUnitCost() * getQuantity() * getCoefficientQuality()) + getTransportCost();
+        Double costWithVatRate = costBeforeVatRate * (1 + (getVatRate() / 100));
+        return costWithVatRate;
     }
 }

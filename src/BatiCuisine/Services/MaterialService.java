@@ -1,6 +1,7 @@
 package BatiCuisine.Services;
 
 import BatiCuisine.Entities.Material;
+import BatiCuisine.Entities.Project;
 import BatiCuisine.Repository.Implementation.MaterialRepository;
 
 import java.util.List;
@@ -26,6 +27,9 @@ public class MaterialService {
     }
     public Boolean delete(int id){
         return materialRepository.delete(id);
+    }
+    public List<Material> findByProject(Project project) {
+        return materialRepository.findByProject(project);
     }
 
 }

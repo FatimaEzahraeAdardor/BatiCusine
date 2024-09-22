@@ -52,6 +52,8 @@ public class Labor extends Component {
 
     @Override
     public Double calculateTotalCost() {
-        return null;
+        Double costBeforeVatRate = getHourlyCost() * getWorkingHours() * getWorkerProductivity();
+        Double costWithVatRate = costBeforeVatRate * (1 + (getVatRate() / 100));
+        return costWithVatRate;
     }
 }
