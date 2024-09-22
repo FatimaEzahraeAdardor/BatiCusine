@@ -7,9 +7,10 @@ public class ProjectService {
     private ProjectRepository projectRepository ;
 
     public ProjectService() {
-        this.projectRepository = projectRepository;
+
+        this.projectRepository = new ProjectRepository();
     }
     public Project save(Project project){
-        return project;
+        return projectRepository.save(project);
     }
 }

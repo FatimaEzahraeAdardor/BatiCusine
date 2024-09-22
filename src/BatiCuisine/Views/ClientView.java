@@ -12,7 +12,7 @@ public class ClientView {
     ClientService clientService = new ClientService();
     Scanner scanner = new Scanner(System.in);
 
-    public void create() {
+    public Client create() {
         System.out.println("--- Ajout d'un nouveau client ---");
         System.out.print("Entrez le nom du client : ");
         String name = scanner.nextLine();
@@ -35,46 +35,48 @@ public class ClientView {
 
         Client client = new Client(name, address, phone, isProfessional);
         clientService.save(client);
-
-        System.out.println("Nouveau client ajouté !");
-        System.out.println("Nom : " + name);
-        System.out.println("Adresse : " + address);
-        System.out.println("Téléphone : " + phone);
-        System.out.println("Vous pouvez maintenant créer le projet pour " + name + ".");
+        if (client != null){
+            System.out.println("Nouveau client ajouté !");
+            System.out.println("Nom : " + name);
+            System.out.println("Adresse : " + address);
+            System.out.println("Téléphone : " + phone);
+//            System.out.println("Vous pouvez maintenant créer le projet pour " + name + ".");
+            return client;
+        }else {
+            System.out.println("Échec de la création du client. Le nom est peut-être déjà utilisé.");
+        }
+        return null;
     }
 
     public void update(){
         System.out.println("--- Modifier un client ---");
         System.out.print("Entrez le nom du client à modifier : ");
         String nom = scanner.nextLine();
-        scanner.nextLine();
-
         Optional<Client> existingClient = clientService.findByName(nom);
         if (existingClient.isPresent()) {
             Client client = existingClient.get();
 
-            System.out.println("Modifier le nom (actuel : " + client.getName() + ") : ");
+            System.out.print("Modifier le nom (actuel : " + client.getName() + ") : ");
             String name = scanner.nextLine();
             if (!name.trim().isEmpty()) {
                 client.setName(name);
             }
 
-            System.out.println("Modifier l'adresse (actuelle : " + client.getAddress() + ") : ");
+            System.out.print("Modifier l'adresse (actuelle : " + client.getAddress() + ") : ");
             String address = scanner.nextLine();
             if (!address.trim().isEmpty()) {
                 client.setAddress(address);
             }
 
-            System.out.println("Modifier le téléphone (actuel : " + client.getPhone() + ") : ");
+            System.out.print("Modifier le téléphone (actuel : " + client.getPhone() + ") : ");
             String phone = scanner.nextLine();
             if (!phone.trim().isEmpty()) {
                 client.setPhone(phone);
             }
-            System.out.println("Le client est-il professionnel (actuel : " + (client.isProfessional() ? "Oui" : "Non") + ") ?");
-            System.out.println("1. Oui");
-            System.out.println("2. Non");
+            System.out.print("Le client est-il professionnel (actuel : " + (client.isProfessional() ? "Oui" : "Non") + ") ?");
+            System.out.print("1. Oui");
+            System.out.print("2. Non");
             String choice = scanner.nextLine();
-            scanner.nextLine();
 
             if (choice.equalsIgnoreCase("oui")) {
                 client.setProfessional(true);
@@ -85,13 +87,17 @@ public class ClientView {
             }
             clientService.update(client);
             System.out.println("Client mis à jour avec succès !");
+            System.out.println("Nom : " + name);
+            System.out.println("Adresse : " + address);
+            System.out.println("Téléphone : " + phone);
+//            System.out.println("Vous pouvez maintenant créer le projet pour " + name + ".");
         } else {
             System.out.println("Aucun client trouvé avec le nom : " + nom);
         }
     }
-    public void delete() throws SQLException {
+    public void delete(){
         System.out.println("--- Supprimer un client ---");
-        System.out.print("Entrez le  du client à supprimer : ");
+        System.out.print("Entrez id du client à supprimer : ");
         int id = scanner.nextInt();
         scanner.nextLine();
         Optional<Client> existingClient = clientService.findById(id);
@@ -102,14 +108,19 @@ public class ClientView {
             System.out.println("Aucun client trouvé avec l'identifiant : " + id);
         }
     }
-    public void displayAllClient() throws SQLException {
+    public void displayAllClient() {
         System.out.println("--- Liste de tous les clients ---");
         List<Client> clients = clientService.findAll();
         if (clients.isEmpty()) {
             System.out.println("Aucun client trouvé.");
-        } else {
+        } else{
+            System.out.println("\n+------+------------------+--------------------------+---------------------+------------------+");
+            System.out.printf("| %-4s | %-16s | %-24s |%-20s | %-16s |\n","ID", "Nom", "Address", "Telephone", "Professionel");
+            System.out.println("+------+------------------+--------------------------+---------------------+------------------+");
             for (Client client : clients) {
-                System.out.println(client.toString());
+                System.out.printf("| %-4s | %-16s | %-24s |%-20s | %-16s |\n", client.getId(), client.getName(), client.getAddress(), client.getPhone(), client.isProfessional()?"oui":"non");
+                System.out.println("+------+------------------+--------------------------+---------------------+------------------+");
+
             }
         }
     }

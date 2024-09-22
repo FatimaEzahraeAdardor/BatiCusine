@@ -13,7 +13,7 @@ public class Project {
     private Client client;
     List<Component> components;
 
-    public Project( String projectName, double profitMargin, double totalCost, ProjectStatus status, Client client) {
+    public Project(String projectName, double profitMargin, double totalCost, ProjectStatus status, Client client) {
         this.projectName = projectName;
         this.profitMargin = profitMargin;
         this.totalCost = totalCost;

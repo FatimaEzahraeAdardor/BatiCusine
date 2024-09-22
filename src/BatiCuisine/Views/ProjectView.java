@@ -16,13 +16,13 @@ public class ProjectView {
 
     public ProjectView() {
 
-        this.projectService = projectService;
-        this.laborView = laborView;
-        this.materialView = materialView;
+        this.projectService = new ProjectService();
+        this.laborView = new LaborView();
+        this.materialView = new MaterialView();
     }
     public void saveProjectForClient(Client client){
         System.out.println("-----Création d'un Nouveau Proje----");
-        System.out.println("Entrer nom de projet");
+        System.out.print("Entrer nom de projet");
         String name =scanner.nextLine();
         Project project = new Project(name, 0.0,0.0, ProjectStatus.INPROGRESS,client);
         Project savedProject = projectService.save(project);
