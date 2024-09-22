@@ -1,13 +1,16 @@
 package BatiCuisine.Repository.Implementation;
 
 import BatiCuisine.Config.DataBaseConnection;
+import BatiCuisine.Entities.Client;
 import BatiCuisine.Entities.Project;
 import BatiCuisine.Repository.Interface.ProjectInterface;
 
 import java.sql.*;
+import java.util.Optional;
 
 public class ProjectRepository implements ProjectInterface {
     private Connection connection;
+    private ClientRepository clientRepository;
 
     public ProjectRepository() {
         this.connection = DataBaseConnection.getInstance().getConnection();
@@ -51,4 +54,32 @@ public class ProjectRepository implements ProjectInterface {
         return project;
     }
 
-}
+    @Override
+    public Optional<Project> findById(int id) {
+        return Optional.empty();
+    }
+
+    @Override
+    public Project findByName(String name){
+        String query = "SELECT * FROM Projects WHERE projectname = ? ";
+        try (PreparedStatement ps = connection.prepareStatement(query)) {
+            ps.setString(1, name);
+            try (ResultSet rs = ps.executeQuery()) {
+                if (rs.next()) {
+                    Project project = new Project();
+                    project.setId(rs.getInt("id"));
+                    project.setProjectName(rs.getString("project_name"));
+                    project.setProfitMargin(rs.getDouble("profit_margin"));
+                    project.setTotalCost(rs.getDouble("total_cost"));
+                    project.setClient(clientRepository.findById(rs.getInt("client_id")).get());
+                    return project;
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return null;
+
+    }
+
+    }
