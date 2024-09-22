@@ -9,6 +9,7 @@ public class Menu {
     private boolean bool;
     ClientView clientView = new ClientView();
     ProjectView projectView = new ProjectView();
+    QuoteView quoteView = new QuoteView();
     public void menuPrincipal(){
 
         while (true){
@@ -16,7 +17,7 @@ public class Menu {
             System.out.println("* ================== Menu Principal ====================== *");
             System.out.println("*  1. Gestion de Client *");
             System.out.println("*  2. Gestion de Projet *");
-            System.out.println("*  3. Calculer le coût d'un projet *");
+            System.out.println("*  3. Gestion des devis*");
             System.out.println("*  4. Quitter *");
             System.out.println("* =========================================================== *\n");
 
@@ -30,7 +31,7 @@ public class Menu {
                     projectMenu();
                     break;
                 case "3":
-
+                    quoteMenu();
                     break;
                 case "4":
                     System.out.println("Au revoir !");
@@ -118,4 +119,38 @@ public class Menu {
 
         }
     }
+    public void quoteMenu() {
+        boolean quitter = false;
+        while(!quitter) {
+            System.out.println("*====================== Gestion des devis ===============================*");
+            System.out.println("*  1. Mettre à jour un devis *");
+            System.out.println("*  2. Supprimer un devis *");
+            System.out.println("*  3. Afficher tous les devis *");
+            System.out.println("*  4. Retourner au menu principal *");
+            System.out.println("*  5. Quitter *");
+
+            System.out.print("Entrez votre choix : ");
+            String choix = scanner.nextLine();
+
+            switch (choix) {
+                case "1":
+                    break;
+                case "2":
+                    break;
+                case "3":
+                    break;
+                case "4":
+                    quitter = true;
+                    System.out.println("Retour au menu principal.");
+                    break;
+                case "5":
+                    System.out.println("Quitter.");
+                    System.exit(0);
+                    break;
+                default:
+                    System.out.println("Choix invalide.");
+            }
+        }
+    }
+
 }
