@@ -65,10 +65,8 @@ public class QuoteRepository implements QuoteInterface {
     }
 
     @Override
-    public List<Quote> findByProjectId(int id) {
+    public Optional<Quote> findByProjectId(int id) {
         String query = "SELECT q.*, p.id AS project_id, p.projectname AS project_name FROM quotes q JOIN projects p ON p.id = q.project_id WHERE q.project_id = ?";
-        List<Quote> quotes = new ArrayList<>();
-
         try (PreparedStatement preparedStatement = connection.prepareStatement(query)) {
             preparedStatement.setInt(1, id);
             ResultSet rs = preparedStatement.executeQuery();
@@ -83,14 +81,13 @@ public class QuoteRepository implements QuoteInterface {
                 Project project = new Project();
                 project.setId(rs.getInt("project_id"));
                 project.setProjectName(rs.getString("project_name"));
-
                 quote.setProject(project);
-                quotes.add(quote);
+                return Optional.of(quote);
             }
         } catch (SQLException e) {
             System.out.println(e.getMessage());
         }
-        return quotes;
+        return Optional.empty();
     }
     @Override
     public List<Quote> findAll() {

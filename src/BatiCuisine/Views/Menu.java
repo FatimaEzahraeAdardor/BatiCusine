@@ -22,12 +22,12 @@ public class Menu {
 
         while (true){
             bool = false;
-            System.out.println(CYAN + "* ======================= Menu Principal ======================= *\n" + RESET);
-            System.out.println(YELLOW + "* 1. Gestion de Client                                           *" );
-            System.out.println(YELLOW + "* 2. Gestion de Projet                                           *" );
-            System.out.println(YELLOW + "* 3. Gestion des devis                                           *" );
-            System.out.println(YELLOW + "* 4. Quitter                                                     *\n");
-            System.out.println(CYAN + "* ============================================================== *\n" + RESET);
+            System.out.println(CYAN + "* ============================ Menu Principal ============================ *\n" + RESET);
+            System.out.println(YELLOW + "* 1. Gestion de Client                                                     *" );
+            System.out.println(YELLOW + "* 2. Gestion de Projet                                                     *" );
+            System.out.println(YELLOW + "* 3. Gestion des devis                                                     *" );
+            System.out.println(YELLOW + "* 4. Quitter                                                               *\n");
+            System.out.println(CYAN + "* ======================================================================== *\n" + RESET);
 
 
             System.out.print("eChoisissez une option : ");
@@ -52,14 +52,14 @@ public class Menu {
     }
     public void clientMenu() {
         while(!bool) {
-            System.out.println(PURPLE + "* ======================= Gestion de Client ======================= *\n" + RESET);
-            System.out.println(GREEN + "* 1. Ajouter un client                                              *");
-            System.out.println(GREEN + "* 2. Modifier un client                                             *");
-            System.out.println(GREEN + "* 3. supprimer client                                               *");
-            System.out.println(GREEN + "* 4. Affichage des clients                                          *");
-            System.out.println(GREEN + "* 5. Return to Main Menu                                            *");
-            System.out.println(GREEN + "* 6. Quitter                                                        *\n");
-            System.out.println(PURPLE +"* ================================================================== *\n" + RESET);
+            System.out.println(PURPLE + "* ========================= Gestion de Client ============================ *\n" + RESET);
+            System.out.println(GREEN + "* 1. Ajouter un client                                                     *");
+            System.out.println(GREEN + "* 2. Modifier un client                                                    *");
+            System.out.println(GREEN + "* 3. supprimer client                                                      *");
+            System.out.println(GREEN + "* 4. Affichage des clients                                                 *");
+            System.out.println(GREEN + "* 5. Retour au menu principal                                              *");
+            System.out.println(GREEN + "* 6. Quitter                                                               *\n");
+            System.out.println(PURPLE +"* ======================================================================== *\n" + RESET);
 
             System.out.print("enter your choice: ");
             String choice = scanner.nextLine();
@@ -92,12 +92,12 @@ public class Menu {
     }
     public void projectMenu(){
         while(!bool){
-            System.out.println("\n* Souhaitez-vous chercher un client existant ou en ajouter un nouveau ? *\n");
-            System.out.println(BLUE + "* 1. Chercher un client existant                                        *");
-            System.out.println(BLUE + "* 2. Ajouter un nouveau client                                          *");
-            System.out.println(BLUE + "* 3. Return to Main Menu                                                *");
-            System.out.println(BLUE + "* 4. Quitter                                                            *\n"+ RESET);
-            System.out.println("=========================================================================\n");
+            System.out.println("\n* Souhaitez-vous chercher un client existant ou en ajouter un nouveau ?    *\n");
+            System.out.println(BLUE + "* 1. Chercher un client existant                                           *");
+            System.out.println(BLUE + "* 2. Ajouter un nouveau client                                             *");
+            System.out.println(BLUE + "* 3. Retour au menu principal                                              *");
+            System.out.println(BLUE + "* 4. Quitter                                                               *\n"+ RESET);
+            System.out.println("* ======================================================================== *\n");
 
             System.out.print("enter your choice: ");
             String choice = scanner.nextLine();
@@ -129,15 +129,15 @@ public class Menu {
         }
     }
     public void quoteMenu() {
-        boolean quitter = false;
-        while(!quitter) {
-            System.out.println(YELLOW +"* ====================== Gestion des devis =============================== *\n"+ RESET);
+        while(!bool) {
+            System.out.println(YELLOW +"* ========================== Gestion des devis =========================== *\n"+ RESET);
             System.out.println("*  1. Afficher tous les projets                                            *");
-            System.out.println("*  2. Afficher tous les devis                                              *");
-            System.out.println("*  3. Accepter un devis                                                    *");
-            System.out.println("*  4. Supprimer un devis                                                   *");
-            System.out.println("*  5. Retourner au menu principal                                          *");
-            System.out.println("*  6. Quitter                                                              *\n");
+            System.out.println("*  2. Afficher le devis specific auu projets                                            *");
+            System.out.println("*  3. Afficher tous les devis                                              *");
+            System.out.println("*  4. Accepter un devis                                                    *");
+            System.out.println("*  5. Supprimer un devis                                                   *");
+            System.out.println("*  6. Retour au menu principal                                             *");
+            System.out.println("*  7. Quitter                                                              *\n");
             System.out.println(YELLOW + "* ======================================================================== *\n"+ RESET);
             System.out.print("Entrez votre choix : ");
             String choix = scanner.nextLine();
@@ -147,18 +147,22 @@ public class Menu {
                     projectView.displayAllProjects();
                     break;
                 case "2":
-                    quoteView.displayAllQuotes();
+                    quoteView.displayQuoteByProject();
                     break;
                 case "3":
-                    quoteView.AccepterQuote();
+                    quoteView.displayAllQuotes();
                     break;
                 case "4":
+                    quoteView.AccepterQuote();
                     break;
                 case "5":
-                    quitter = true;
-                    System.out.println("Retour au menu principal.");
+                    quoteView.delete();
                     break;
                 case "6":
+                    bool = true;
+                    System.out.println("Retour au menu principal.");
+                    break;
+                case "7":
                     System.out.println("Quitter.");
                     System.exit(0);
                     break;

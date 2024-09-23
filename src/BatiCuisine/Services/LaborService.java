@@ -27,5 +27,11 @@ public class LaborService {
     public List<Labor> findByProject(Project project) {
         return laborRepository.findByProject(project);
     }
+    public double calculateTotalLaborCost(Project project) {
+        List<Labor> labors = findByProject(project);
+        return labors.stream()
+                .mapToDouble(Labor::calculateTotalCost)
+                .sum();
+    }
 
 }

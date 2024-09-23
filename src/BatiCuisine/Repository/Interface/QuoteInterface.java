@@ -10,7 +10,7 @@ public interface QuoteInterface {
     Quote save(Quote quote) ;
     Optional<Quote> findById(int id);
 
-    List<Quote> findByProjectId(int projectId);
+    Optional<Quote> findByProjectId(int projectId);
 
     List<Quote> findAll() ;
 

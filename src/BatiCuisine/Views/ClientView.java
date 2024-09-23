@@ -2,6 +2,7 @@ package BatiCuisine.Views;
 
 import BatiCuisine.Entities.Client;
 import BatiCuisine.Services.ClientService;
+import BatiCuisine.utils.InputValidator;
 
 import java.sql.SQLException;
 import java.util.List;
@@ -13,15 +14,11 @@ public class ClientView {
     Scanner scanner = new Scanner(System.in);
 
     public Client create() {
-        System.out.println("--- Ajout d'un nouveau client ---");
-        System.out.print("Entrez le nom du client : ");
-        String name = scanner.nextLine();
-        System.out.print("Entrez l'adresse du client : ");
-        String address = scanner.nextLine();
-        System.out.print("Entrez le numéro de téléphone du client : ");
-        String phone = scanner.nextLine();
-        System.out.println("Choisissez si le client est professionnel (oui/non) :");
-        String choice = scanner.nextLine();
+        System.out.println("-------------------- Ajout d'un nouveau client ---------------------");
+        String name = InputValidator.promptForString("Entrez le nom du client :");
+        String address = InputValidator.promptForString("Entrez l'adresse du client : ");
+        String phone = InputValidator.promptForString("Entrez le numéro de téléphone du client : ");
+        String choice = InputValidator.promptForString("Choisissez si le client est professionnel (oui/non) :");
         boolean isProfessional;
 
         if (choice.equalsIgnoreCase("oui")) {
@@ -34,49 +31,46 @@ public class ClientView {
         }
 
         Client client = new Client(name, address, phone, isProfessional);
-        clientService.save(client);
-        if (client != null){
+        Client client1 = clientService.save(client);
+        if (client1 != null){
             System.out.println("Nouveau client ajouté !");
             System.out.println("Nom : " + name);
             System.out.println("Adresse : " + address);
             System.out.println("Téléphone : " + phone);
-//            System.out.println("Vous pouvez maintenant créer le projet pour " + name + ".");
-            return client;
+            return client1;
         }else {
-            System.out.println("Échec de la création du client. Le nom est peut-être déjà utilisé.");
+            System.out.println("Échec de la création du client. Le nom est peut-être déjà utilisé.\n");
         }
         return null;
     }
 
     public void update(){
         System.out.println("--- Modifier un client ---");
-        System.out.print("Entrez le nom du client à modifier : ");
-        String nom = scanner.nextLine();
+        String nom = InputValidator.promptForString("Entrez le nom du client à modifier : ");
         Optional<Client> existingClient = clientService.findByName(nom);
         if (existingClient.isPresent()) {
             Client client = existingClient.get();
 
-            System.out.print("Modifier le nom (actuel : " + client.getName() + ") : ");
+            System.out.print("Modifier le nom actuel : " + client.getName() + "(ou appuyez sur Entrée pour conserver l'ancien) : ");
             String name = scanner.nextLine();
             if (!name.trim().isEmpty()) {
                 client.setName(name);
             }
-
-            System.out.print("Modifier l'adresse (actuelle : " + client.getAddress() + ") : ");
+            System.out.print("Modifier l'adresse actuelle : " + client.getAddress() + "(ou appuyez sur Entrée pour conserver l'ancien) : ");
             String address = scanner.nextLine();
             if (!address.trim().isEmpty()) {
                 client.setAddress(address);
             }
 
-            System.out.print("Modifier le téléphone (actuel : " + client.getPhone() + ") : ");
+            System.out.print("Modifier le téléphone actuel : " + client.getPhone() + "(ou appuyez sur Entrée pour conserver l'ancien) : ");
             String phone = scanner.nextLine();
             if (!phone.trim().isEmpty()) {
                 client.setPhone(phone);
             }
-            System.out.print("Le client est-il professionnel (actuel : " + (client.isProfessional() ? "Oui" : "Non") + ") ?");
+            System.out.print("Le client est-il professionnel actuel : " + (client.isProfessional() ? "Oui" : "Non") + "(ou appuyez sur Entrée pour conserver l'ancien) ?");
             System.out.print("1. Oui");
             System.out.print("2. Non");
-            String choice = scanner.nextLine();
+            String choice = scanner.nextLine().trim();
 
             if (choice.equalsIgnoreCase("oui")) {
                 client.setProfessional(true);
@@ -85,11 +79,11 @@ public class ClientView {
             } else {
                 System.out.println("Choix invalide. Statut professionnel inchangé.");
             }
-            clientService.update(client);
+            Client updatedClient = clientService.update(client);
             System.out.println("Client mis à jour avec succès !");
-            System.out.println("Nom : " + name);
-            System.out.println("Adresse : " + address);
-            System.out.println("Téléphone : " + phone);
+            System.out.println("Nom : " + updatedClient.getName());
+            System.out.println("Adresse : " + updatedClient.getAddress());
+            System.out.println("Téléphone : " + updatedClient.getPhone());
 //            System.out.println("Vous pouvez maintenant créer le projet pour " + name + ".");
         } else {
             System.out.println("Aucun client trouvé avec le nom : " + nom);
@@ -97,8 +91,7 @@ public class ClientView {
     }
     public void delete(){
         System.out.println("--- Supprimer un client ---");
-        System.out.print("Entrez id du client à supprimer : ");
-        int id = scanner.nextInt();
+        int id = InputValidator.promptForInteger("Entrez id du client à supprimer : ");
         scanner.nextLine();
         Optional<Client> existingClient = clientService.findById(id);
         if (existingClient.isPresent()) {
@@ -109,8 +102,7 @@ public class ClientView {
         }
     }
     public Client searchClientByName() {
-        System.out.print("Entrez le nom du client :");
-        String name = scanner.nextLine();
+        String name = InputValidator.promptForString("Entrez le nom du client :");
         Optional<Client> client = clientService.findByName(name);
         if (client.isPresent()) {
             Client foundClient = client.get();

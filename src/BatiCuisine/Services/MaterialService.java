@@ -31,5 +31,11 @@ public class MaterialService {
     public List<Material> findByProject(Project project) {
         return materialRepository.findByProject(project);
     }
+    public double calculateTotalMaterialCost(Project project) {
+        List<Material> materials = findByProject(project);
+        return materials.stream()
+                .mapToDouble(Material::calculateTotalCost)
+                .sum();
+    }
 
 }

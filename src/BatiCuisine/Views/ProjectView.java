@@ -5,6 +5,7 @@ import BatiCuisine.Enums.ProjectStatus;
 import BatiCuisine.Services.LaborService;
 import BatiCuisine.Services.MaterialService;
 import BatiCuisine.Services.ProjectService;
+import BatiCuisine.utils.InputValidator;
 
 import java.util.List;
 import java.util.Scanner;
@@ -29,12 +30,11 @@ public class ProjectView {
 
     public void saveProjectForClient(Client client) {
         System.out.println("-----Création d'un Nouveau Projet-----");
-        System.out.print("Entrer nom de projet : ");
-        String name = scanner.nextLine();
+        String name = InputValidator.promptForString("Entrer nom de projet : ");
         Project project = new Project(name, 0.0, 0.0, ProjectStatus.INPROGRESS, client);
         Project savedProject = projectService.save(project);
         materialView.createMaterial(savedProject);
-        laborView.creatLabor(savedProject);
+        laborView.createLabor(savedProject);
         calculateProjectCost(savedProject);
         quoteView.AddQuote(savedProject);
 
@@ -45,45 +45,39 @@ public class ProjectView {
         double totalLaborCost = 0;
         System.out.println("--- Calcul du coût total ---");
 
-        // Calcul du coût total des matériaux
-        List<Material> materials = materialService.findByProject(project);
-          totalMaterialCost = materials.stream()
-                .mapToDouble(Material::calculateTotalCost)
-                .sum();
-
-        // Calcul du coût total de la main-d'œuvre
-        List<Labor> labors = laborService.findByProject(project);
-        totalLaborCost = labors.stream()
-                .mapToDouble(Labor::calculateTotalCost)
-                 .sum();
+        // Calculate total material and labor costs
+        totalMaterialCost = materialService.calculateTotalMaterialCost(project);
+        totalLaborCost = laborService.calculateTotalLaborCost(project);
 
         double totalCostBeforeVAT = totalMaterialCost + totalLaborCost;
 
-        // Application de la TVA
-        System.out.print("Souhaitez-vous appliquer une TVA au projet ? (y/n) : ");
-        boolean applyVAT = scanner.nextLine().equalsIgnoreCase("y");
+        // Apply VAT if necessary
+        boolean applyVAT = InputValidator.promptForString("Souhaitez-vous appliquer une TVA au projet ? (y/n) : ")
+                .equalsIgnoreCase("y");
         double vatRate = 0;
         if (applyVAT) {
-            vatRate = promptForDouble("Entrez le pourcentage de TVA (%) : ") ;
+            vatRate = InputValidator.promptForDouble("Entrez le pourcentage de TVA (%) : ");
         }
-        double totalCostWithVAT = totalCostBeforeVAT * (1 + vatRate/100);
+        double totalCostWithVAT = totalCostBeforeVAT * (1 + vatRate / 100);
 
-        // Application de la marge bénéficiaire
-        System.out.print("Souhaitez-vous appliquer une marge bénéficiaire au projet ? (y/n) : ");
-        boolean applyProfitMargin = scanner.nextLine().equalsIgnoreCase("y");
+        // Apply Profit Margin if necessary
+        boolean applyProfitMargin = InputValidator.promptForString("Souhaitez-vous appliquer une marge bénéficiaire au projet ? (y/n) : ")
+                .equalsIgnoreCase("y");
         double profitMarginRate = 0;
         if (applyProfitMargin) {
-            profitMarginRate = promptForDouble("Entrez le pourcentage de marge bénéficiaire (%) : ") ;
+            profitMarginRate = InputValidator.promptForDouble("Entrez le pourcentage de marge bénéficiaire (%) : ");
         }
-        double finalTotalCost = totalCostWithVAT * (1 + profitMarginRate/100);
+        double finalTotalCost = totalCostWithVAT * (1 + profitMarginRate / 100);
 
-        // Mise à jour du projet avec les coûts calculés
+        // Update the project with calculated costs
         project.setTotalCost(finalTotalCost);
         project.setProfitMargin(profitMarginRate);
         projectService.update(project);
-        // Affichage des résultats
+
+        // Display project details with calculated costs
         displayProjectDetails(project, totalMaterialCost, totalLaborCost, totalCostBeforeVAT, vatRate, profitMarginRate, finalTotalCost);
     }
+
     public void displayProjectDetails(Project project, double materialCost, double laborCost, double costBeforeVAT, double vatRate, double profitMarginRate, double finalCost) {
         System.out.println("--- Résultat du Calcul ---");
         System.out.printf("Nom du projet : \n" + project.getProjectName());
@@ -130,15 +124,5 @@ public class ProjectView {
         }
 
 }
-    // Méthode utilitaire pour demander un double à l'utilisateur
-    private double promptForDouble(String message) {
-        while (true) {
-            System.out.print(message);
-            try {
-                return Double.parseDouble(scanner.nextLine());
-            } catch (NumberFormatException e) {
-                System.out.println("Veuillez entrer un nombre valide.");
-            }
-        }
-    }
+
 }

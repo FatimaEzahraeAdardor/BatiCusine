@@ -1,9 +1,11 @@
 package BatiCuisine.Views;
 
+import BatiCuisine.Entities.Client;
 import BatiCuisine.Entities.Project;
 import BatiCuisine.Entities.Quote;
 import BatiCuisine.Services.ProjectService;
 import BatiCuisine.Services.QuoteService;
+import BatiCuisine.utils.InputValidator;
 
 import java.time.LocalDate;
 import java.util.List;
@@ -20,32 +22,56 @@ public class QuoteView {
         this.projectService = new ProjectService();
         this.scanner = new Scanner(System.in);
     }
-    public void AddQuote(Project project){
+    public void AddQuote(Project project) {
         System.out.println("----- Enregistrement de devis ----");
-        Double estimatedAmount =  project.getTotalCost();
-
-        System.out.print("Enter issue date (yyyy-MM-dd): ");
-        LocalDate issueDate = LocalDate.parse(scanner.nextLine());
-
-        System.out.print("Enter validated date (yyyy-MM-dd): ");
-        LocalDate validatedDate = LocalDate.parse(scanner.nextLine());
-
-        Quote quote = new Quote( estimatedAmount, issueDate, validatedDate, false, project);
+        Double estimatedAmount = project.getTotalCost();
+        LocalDate issueDate = InputValidator.promptForDate("Entrez la date d'émission (yyyy-MM-dd) : ");
+        LocalDate validatedDate;
+        while (true) {
+            validatedDate = InputValidator.promptForDate("Entrez la date de validité (yyyy-MM-dd) : ");
+            if (validatedDate.isAfter(issueDate) || validatedDate.isEqual(issueDate)) {
+                break;
+            } else {
+                System.out.println("La date de validité ne peut pas être antérieure à la date d'émission. Veuillez entrer une date valide.");
+            }
+        }
+        Quote quote = new Quote(estimatedAmount, issueDate, validatedDate, false, project);
         quoteService.save(quote);
-        System.out.println("Citation enregistrée avec succès!");
+
+        System.out.println("Devis enregistré avec succès !");
     }
-    public void displayAllQuotes() {
-        System.out.printf("Entrer ID de projet: ");
-        int projetId = scanner.nextInt();
-        Optional<Project> project = projectService.findById(projetId);
+
+
+    public void displayQuoteByProject() {
+        int projectId = InputValidator.promptForInteger("Entrer ID de projet: ");
+        Optional<Project> project = projectService.findById(projectId);
 
         if (project.isEmpty()) {
-            System.out.println("Projet avec ID " + projetId + " non trouvé.");
+            System.out.println("Projet avec ID " + projectId + " non trouvé.");
             return;
         }
         System.out.println("--- Liste de tous les devis ---");
-        List<Quote> quotes = quoteService.findQuoteByProjectId(projetId);
+        Optional<Quote> quote = quoteService.findQuoteByProjectId(projectId);
 
+        if (quote.isEmpty()) {
+            System.out.println("Aucun devis trouvé pour ce projet.");
+        } else {
+            System.out.println("\n+------+------------------+--------------------------+---------------------+------------------+");
+            System.out.printf("| %-4s | %-16s | %-24s | %-20s | %-16s |\n",
+                    "ID", "Montant Estimé", "Date d'Émission", "Statut", "Nom du Projet");
+            System.out.println("+------+------------------+--------------------------+---------------------+------------------+");
+             System.out.printf("| %-4s | %-16.2f | %-24s | %-20s | %-16s |\n",
+                        quote.get().getId(),
+                        quote.get().getEstimatedAmount(),
+                        quote.get().getIssueDate(),
+                        quote.get().isAccepted() ? "Accepté" : "Refusé",
+                        quote.get().getProject().getProjectName());
+                System.out.println("+------+------------------+--------------------------+---------------------+------------------+");
+            }
+    }
+    public void displayAllQuotes() {
+        System.out.println("--- Liste de tous les devis ---");
+        List<Quote> quotes = quoteService.findAll();
         if (quotes.isEmpty()) {
             System.out.println("Aucun devis trouvé pour ce projet.");
         } else {
@@ -66,10 +92,8 @@ public class QuoteView {
         }
     }
     public void AccepterQuote() {
-        System.out.printf("Entrer ID de devis: ");
-        int id = scanner.nextInt();
+        int id = InputValidator.promptForInteger("Entrer ID de devi: ");
         scanner.nextLine();
-
         System.out.print("Souhaitez-vous accepter ce devis ? (y/n) : ");
         String response = scanner.nextLine();
 
@@ -92,9 +116,14 @@ public class QuoteView {
 
 
     public void delete() {
-        System.out.print("Entrer nom de devis ");
-        int id = scanner.nextInt();
+        int id = InputValidator.promptForInteger("Entrer ID de devi: ");
         scanner.nextLine();
-        quoteService.delete(id);
+        Optional<Quote> existingDevi = quoteService.findById(id);
+        if (existingDevi.isPresent()) {
+            quoteService.delete(id);
+            System.out.println("Devi supprimé avec succès !");
+        } else {
+            System.out.println("Aucun devi trouvé avec l'identifiant : " + id);
+        }
     }
 }

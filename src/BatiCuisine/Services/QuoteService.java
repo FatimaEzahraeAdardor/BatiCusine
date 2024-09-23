@@ -18,8 +18,11 @@ public class QuoteService {
     public Optional<Quote> findById(int id){
         return quoteRepository.findById(id);
     }
-    public List<Quote> findQuoteByProjectId(int projectId){
+    public Optional<Quote> findQuoteByProjectId(int projectId){
         return quoteRepository.findByProjectId(projectId);
+    }
+    public List<Quote> findAll(){
+        return quoteRepository.findAll();
     }
     public Quote update(Quote quote){
         return quoteRepository.update(quote);
