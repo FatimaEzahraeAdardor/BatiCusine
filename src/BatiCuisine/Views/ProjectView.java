@@ -47,17 +47,16 @@ public class ProjectView {
 
         // Calcul du coût total des matériaux
         List<Material> materials = materialService.findByProject(project);
-        for (Material material : materials) {
-            double materialCost = material.calculateTotalCost();
-            totalMaterialCost += materialCost;
-        }
+          totalMaterialCost = materials.stream()
+                .mapToDouble(Material::calculateTotalCost)
+                .sum();
 
         // Calcul du coût total de la main-d'œuvre
         List<Labor> labors = laborService.findByProject(project);
-        for (Labor labor : labors) {
-            double laborCost = labor.calculateTotalCost();
-            totalLaborCost += laborCost;
-        }
+        totalLaborCost = labors.stream()
+                .mapToDouble(Labor::calculateTotalCost)
+                 .sum();
+
         double totalCostBeforeVAT = totalMaterialCost + totalLaborCost;
 
         // Application de la TVA
