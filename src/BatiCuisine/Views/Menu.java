@@ -123,27 +123,31 @@ public class Menu {
         boolean quitter = false;
         while(!quitter) {
             System.out.println("*====================== Gestion des devis ===============================*");
-            System.out.println("*  1. Mettre à jour un devis *");
-            System.out.println("*  2. Supprimer un devis *");
-            System.out.println("*  3. Afficher tous les devis *");
-            System.out.println("*  4. Retourner au menu principal *");
-            System.out.println("*  5. Quitter *");
+            System.out.println("*  1. Afficher tous les projets *");
+            System.out.println("*  2. Afficher tous les devis *");
+            System.out.println("*  3. Accepter un devis *");
+            System.out.println("*  4. Supprimer un devis *");
+            System.out.println("*  5. Retourner au menu principal *");
+            System.out.println("*  6. Quitter *");
 
             System.out.print("Entrez votre choix : ");
             String choix = scanner.nextLine();
 
             switch (choix) {
                 case "1":
+                    projectView.displayAllProjects();
                     break;
                 case "2":
                     break;
                 case "3":
                     break;
                 case "4":
+                    break;
+                case "5":
                     quitter = true;
                     System.out.println("Retour au menu principal.");
                     break;
-                case "5":
+                case "6":
                     System.out.println("Quitter.");
                     System.exit(0);
                     break;

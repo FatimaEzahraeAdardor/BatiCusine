@@ -3,9 +3,12 @@ package BatiCuisine.Repository.Implementation;
 import BatiCuisine.Config.DataBaseConnection;
 import BatiCuisine.Entities.Client;
 import BatiCuisine.Entities.Project;
+import BatiCuisine.Enums.ProjectStatus;
 import BatiCuisine.Repository.Interface.ProjectInterface;
 
 import java.sql.*;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 
 public class ProjectRepository implements ProjectInterface {
@@ -58,7 +61,6 @@ public class ProjectRepository implements ProjectInterface {
     public Optional<Project> findById(int id) {
         return Optional.empty();
     }
-
     @Override
     public Project findByName(String name){
         String query = "SELECT * FROM Projects WHERE projectname = ? ";
@@ -68,9 +70,10 @@ public class ProjectRepository implements ProjectInterface {
                 if (rs.next()) {
                     Project project = new Project();
                     project.setId(rs.getInt("id"));
-                    project.setProjectName(rs.getString("project_name"));
-                    project.setProfitMargin(rs.getDouble("profit_margin"));
-                    project.setTotalCost(rs.getDouble("total_cost"));
+                    project.setProjectName(rs.getString("projectname"));
+                    project.setProfitMargin(rs.getDouble("profitmargin"));
+                    project.setTotalCost(rs.getDouble("totalcost"));
+                    project.setStatus(ProjectStatus.valueOf(rs.getString("projectstatus")));
                     project.setClient(clientRepository.findById(rs.getInt("client_id")).get());
                     return project;
                 }
@@ -82,4 +85,32 @@ public class ProjectRepository implements ProjectInterface {
 
     }
 
+    @Override
+    public List<Project> findAll() {
+        String query = "SELECT p.*, c.id AS client_id, c.name AS client_name FROM projects p JOIN clients c ON p.client_id = c.id";
+        List<Project> projects = new ArrayList<>();
+
+        try (PreparedStatement preparedStatement = connection.prepareStatement(query)) {
+            ResultSet rs = preparedStatement.executeQuery();
+            while (rs.next()) {
+                Project project = new Project();
+                project.setId(rs.getInt("id"));
+                project.setProjectName(rs.getString("projectname"));
+                project.setProfitMargin(rs.getDouble("profitmargin"));
+                project.setTotalCost(rs.getDouble("totalcost"));
+                project.setStatus(ProjectStatus.valueOf(rs.getString("projectstatus")));
+                Client client = new Client();
+                client.setId(rs.getInt("client_id"));
+                client.setName(rs.getString("client_name"));
+
+                project.setClient(client);
+                projects.add(project);
+            }
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+        }
+
+        return projects;
     }
+
+}

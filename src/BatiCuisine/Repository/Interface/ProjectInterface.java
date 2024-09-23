@@ -3,6 +3,7 @@ package BatiCuisine.Repository.Interface;
 import BatiCuisine.Entities.Client;
 import BatiCuisine.Entities.Project;
 
+import java.util.List;
 import java.util.Optional;
 
 public interface ProjectInterface {
@@ -10,6 +11,7 @@ public interface ProjectInterface {
   Project update(Project project);
   Optional<Project> findById(int id);
   Project findByName(String name);
+  List<Project> findAll();
 
 
 }

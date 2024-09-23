@@ -3,6 +3,7 @@ package BatiCuisine.Services;
 import BatiCuisine.Entities.Project;
 import BatiCuisine.Repository.Implementation.ProjectRepository;
 
+import java.util.List;
 import java.util.Optional;
 
 public class ProjectService {
@@ -20,5 +21,8 @@ public class ProjectService {
     }
     public Project findByName(String name){
         return projectRepository.findByName(name);
+    }
+    public List<Project> findAll(){
+        return projectRepository.findAll();
     }
 }

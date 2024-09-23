@@ -19,11 +19,8 @@ public class QuoteView {
         this.projectService = new ProjectService();
         this.scanner = new Scanner(System.in);
     }
-    public void AddQuote(){
-        System.out.print("Entrer nom de projet: ");
-        String projectName = scanner.nextLine();
-        Project project = null;
-        project = projectService.findByName(projectName);
+    public void AddQuote(Project project){
+        System.out.println("----- Enregistrement de devis ----");
         Double estimatedAmount =  project.getTotalCost();
 
         System.out.print("Enter issue date (yyyy-MM-dd): ");
@@ -34,6 +31,7 @@ public class QuoteView {
 
         Quote quote = new Quote( estimatedAmount, issueDate, validatedDate, false, project);
         quoteService.save(quote);
+        System.out.println("Citation enregistrée avec succès!");
     }
     public void delete() {
         System.out.print("Entrer nom de devis ");

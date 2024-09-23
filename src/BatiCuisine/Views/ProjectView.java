@@ -1,9 +1,6 @@
 package BatiCuisine.Views;
 
-import BatiCuisine.Entities.Client;
-import BatiCuisine.Entities.Labor;
-import BatiCuisine.Entities.Material;
-import BatiCuisine.Entities.Project;
+import BatiCuisine.Entities.*;
 import BatiCuisine.Enums.ProjectStatus;
 import BatiCuisine.Services.LaborService;
 import BatiCuisine.Services.MaterialService;
@@ -18,6 +15,7 @@ public class ProjectView {
     private MaterialView materialView;
     private MaterialService materialService;
     private LaborService laborService;
+    private QuoteView quoteView = new QuoteView();
     private Scanner scanner = new Scanner(System.in);
 
     public ProjectView() {
@@ -26,6 +24,7 @@ public class ProjectView {
         this.materialView = new MaterialView();
         this.materialService = new MaterialService();
         this.laborService = new LaborService();
+
     }
 
     public void saveProjectForClient(Client client) {
@@ -37,6 +36,8 @@ public class ProjectView {
         materialView.createMaterial(savedProject);
         laborView.creatLabor(savedProject);
         calculateProjectCost(savedProject);
+        quoteView.AddQuote(savedProject);
+
     }
 
     public void calculateProjectCost(Project project) {
@@ -106,6 +107,30 @@ public class ProjectView {
         System.out.printf("7. Coût total final du projet : %.2f €\n", finalCost);
     }
 
+    public void displayAllProjects() {
+        System.out.println("--- Liste de tous les projets ---");
+        List<Project> projects = projectService.findAll();
+        if (projects.isEmpty()) {
+            System.out.println("Aucun projet trouvé.");
+        } else {
+            System.out.println("\n+------+------------------+--------------------------+---------------------+------------------+------------------+");
+            System.out.printf("| %-4s | %-16s | %-24s | %-19s | %-16s | %-16s |\n",
+                    "ID", "Nom de Projet", "Marge bénéficiaire", "Coût total", "Status de Projet", "Nom de Client");
+            System.out.println("+------+------------------+--------------------------+---------------------+------------------+------------------+");
+
+            for (Project project : projects) {
+                System.out.printf("| %-4s | %-16s | %-24s | %-19s | %-16s | %-16s |\n",
+                        project.getId(),
+                        project.getProjectName(),
+                        project.getProfitMargin(),
+                        project.getTotalCost(),
+                        project.getStatus(),
+                        project.getClient().getName());
+                System.out.println("+------+------------------+--------------------------+---------------------+------------------+------------------+");
+            }
+        }
+
+}
     // Méthode utilitaire pour demander un double à l'utilisateur
     private double promptForDouble(String message) {
         while (true) {

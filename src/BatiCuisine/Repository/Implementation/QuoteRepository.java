@@ -1,10 +1,12 @@
 package BatiCuisine.Repository.Implementation;
 
 import BatiCuisine.Config.DataBaseConnection;
+import BatiCuisine.Entities.Project;
 import BatiCuisine.Entities.Quote;
 import BatiCuisine.Repository.Interface.QuoteInterface;
 
 import java.sql.*;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -36,10 +38,34 @@ public class QuoteRepository implements QuoteInterface {
 
     }
 
-    @Override
-    public Optional<Quote> findById(int id) {
-         String query = "SELECT * FROM quotes WHERE project_id = ?";
+//    @Override
+//    public Optional<Quote> findById(int id) {
+//         String query = "SELECT * FROM quotes WHERE id = ?";
+//
+//        try (PreparedStatement preparedStatement = connection.prepareStatement(query)) {
+//            preparedStatement.setInt(1, id);
+//            ResultSet rs = preparedStatement.executeQuery();
+//
+//            if (rs.next()) {
+//                Quote quote = new Quote();
+//                quote.setId(rs.getInt("id"));
+//                quote.setEstimatedAmount(rs.getDouble("estimatedamount"));
+//                quote.setIssueDate(rs.getDate("issuedate").toLocalDate());
+//                quote.setValidatedDate(rs.getDate("validitydate").toLocalDate());
+//                quote.setAccepted(rs.getBoolean("isaccepted"));
+//
+//                return Optional.of(quote);
+//            }
+//        } catch (SQLException e) {
+//            System.out.println(e.getMessage());
+//        }
+//        return Optional.empty();
+//    }
 
+    @Override
+    public List<Quote> findByProjectId(int id) {
+        String query = "SELECT * FROM quotes WHERE project_id = ?";
+        List<Quote> quotes = new ArrayList<>();
         try (PreparedStatement preparedStatement = connection.prepareStatement(query)) {
             preparedStatement.setInt(1, id);
             ResultSet rs = preparedStatement.executeQuery();
@@ -51,15 +77,13 @@ public class QuoteRepository implements QuoteInterface {
                 quote.setIssueDate(rs.getDate("issuedate").toLocalDate());
                 quote.setValidatedDate(rs.getDate("validitydate").toLocalDate());
                 quote.setAccepted(rs.getBoolean("isaccepted"));
-
-                return Optional.of(quote);
+                quotes.add(quote);
             }
         } catch (SQLException e) {
             System.out.println(e.getMessage());
         }
-        return Optional.empty();
+        return quotes;
     }
-
     @Override
     public List<Quote> findAll() {
         return null;
