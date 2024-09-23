@@ -3,6 +3,7 @@ package BatiCuisine.Services;
 import BatiCuisine.Entities.Quote;
 import BatiCuisine.Repository.Implementation.QuoteRepository;
 
+import java.util.List;
 import java.util.Optional;
 
 public class QuoteService {
@@ -17,6 +18,9 @@ public class QuoteService {
 //    public Optional<Quote> findById(int id){
 //        return quoteRepository.findById(id);
 //    }
+    public List<Quote> findQuoteByProjectId(int projectId){
+        return quoteRepository.findByProjectId(projectId);
+    }
     public Quote update(Quote quote){
         return quoteRepository.update(quote);
     }

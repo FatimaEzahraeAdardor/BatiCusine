@@ -16,8 +16,11 @@ public class ProjectService {
     public Project save(Project project){
         return projectRepository.save(project);
     }
-    public void update(Project project) {
-        projectRepository.update(project);
+    public Project update(Project project) {
+       return projectRepository.update(project);
+    }
+    public Optional<Project> findById(int id){
+        return projectRepository.findById(id);
     }
     public Project findByName(String name){
         return projectRepository.findByName(name);

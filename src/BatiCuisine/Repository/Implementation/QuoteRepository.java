@@ -12,9 +12,11 @@ import java.util.Optional;
 
 public class QuoteRepository implements QuoteInterface {
     private Connection connection;
+    private ProjectRepository projectRepository;
 
     public QuoteRepository() {
         this.connection = DataBaseConnection.getInstance().getConnection();
+        this.projectRepository  = new ProjectRepository();
     }
 
     @Override
@@ -64,19 +66,25 @@ public class QuoteRepository implements QuoteInterface {
 
     @Override
     public List<Quote> findByProjectId(int id) {
-        String query = "SELECT * FROM quotes WHERE project_id = ?";
+        String query = "SELECT q.*, p.id AS project_id, p.projectname AS project_name FROM quotes q JOIN projects p ON p.id = q.project_id WHERE q.project_id = ?";
         List<Quote> quotes = new ArrayList<>();
+
         try (PreparedStatement preparedStatement = connection.prepareStatement(query)) {
             preparedStatement.setInt(1, id);
             ResultSet rs = preparedStatement.executeQuery();
-
-            if (rs.next()) {
+            while (rs.next()) {
                 Quote quote = new Quote();
                 quote.setId(rs.getInt("id"));
                 quote.setEstimatedAmount(rs.getDouble("estimatedamount"));
                 quote.setIssueDate(rs.getDate("issuedate").toLocalDate());
                 quote.setValidatedDate(rs.getDate("validitydate").toLocalDate());
                 quote.setAccepted(rs.getBoolean("isaccepted"));
+
+                Project project = new Project();
+                project.setId(rs.getInt("project_id"));
+                project.setProjectName(rs.getString("project_name"));
+
+                quote.setProject(project);
                 quotes.add(quote);
             }
         } catch (SQLException e) {

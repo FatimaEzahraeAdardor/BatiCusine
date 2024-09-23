@@ -59,6 +59,23 @@ public class ProjectRepository implements ProjectInterface {
 
     @Override
     public Optional<Project> findById(int id) {
+        String query = "SELECT * FROM Projects WHERE id = ? ";
+        try (PreparedStatement ps = connection.prepareStatement(query)) {
+            ps.setInt(1, id);
+            try (ResultSet rs = ps.executeQuery()) {
+                if (rs.next()) {
+                    Project project = new Project();
+                    project.setId(rs.getInt("id"));
+                    project.setProjectName(rs.getString("projectname"));
+                    project.setProfitMargin(rs.getDouble("profitmargin"));
+                    project.setTotalCost(rs.getDouble("totalcost"));
+                    project.setStatus(ProjectStatus.valueOf(rs.getString("projectstatus")));
+                    return Optional.of(project);
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
         return Optional.empty();
     }
     @Override

@@ -138,6 +138,7 @@ public class Menu {
                     projectView.displayAllProjects();
                     break;
                 case "2":
+                    quoteView.displayAllQuotes();
                     break;
                 case "3":
                     break;

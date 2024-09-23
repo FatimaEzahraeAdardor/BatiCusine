@@ -9,7 +9,7 @@ import java.util.Optional;
 public interface QuoteInterface {
     Quote save(Quote quote) ;
 
-    List<Quote> findByProjectId(int id);
+    List<Quote> findByProjectId(int projectId);
 
     List<Quote> findAll() ;
 
