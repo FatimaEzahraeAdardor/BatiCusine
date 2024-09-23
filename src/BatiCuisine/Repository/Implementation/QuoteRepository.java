@@ -40,29 +40,29 @@ public class QuoteRepository implements QuoteInterface {
 
     }
 
-//    @Override
-//    public Optional<Quote> findById(int id) {
-//         String query = "SELECT * FROM quotes WHERE id = ?";
-//
-//        try (PreparedStatement preparedStatement = connection.prepareStatement(query)) {
-//            preparedStatement.setInt(1, id);
-//            ResultSet rs = preparedStatement.executeQuery();
-//
-//            if (rs.next()) {
-//                Quote quote = new Quote();
-//                quote.setId(rs.getInt("id"));
-//                quote.setEstimatedAmount(rs.getDouble("estimatedamount"));
-//                quote.setIssueDate(rs.getDate("issuedate").toLocalDate());
-//                quote.setValidatedDate(rs.getDate("validitydate").toLocalDate());
-//                quote.setAccepted(rs.getBoolean("isaccepted"));
-//
-//                return Optional.of(quote);
-//            }
-//        } catch (SQLException e) {
-//            System.out.println(e.getMessage());
-//        }
-//        return Optional.empty();
-//    }
+  @Override
+    public Optional<Quote> findById(int id) {
+         String query = "SELECT * FROM quotes WHERE id = ?";
+
+        try (PreparedStatement preparedStatement = connection.prepareStatement(query)) {
+            preparedStatement.setInt(1, id);
+            ResultSet rs = preparedStatement.executeQuery();
+
+            if (rs.next()) {
+                Quote quote = new Quote();
+                quote.setId(rs.getInt("id"));
+                quote.setEstimatedAmount(rs.getDouble("estimatedamount"));
+                quote.setIssueDate(rs.getDate("issuedate").toLocalDate());
+                quote.setValidatedDate(rs.getDate("validitydate").toLocalDate());
+                quote.setAccepted(rs.getBoolean("isaccepted"));
+
+                return Optional.of(quote);
+            }
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+        }
+        return Optional.empty();
+    }
 
     @Override
     public List<Quote> findByProjectId(int id) {
@@ -99,12 +99,10 @@ public class QuoteRepository implements QuoteInterface {
 
     @Override
     public Quote update(Quote quote) {
-        String query = "UPDATE quotes SET issuedate = ?, validitydate = ?, isaccepted = ? WHERE id = ?";
+        String query = "UPDATE quotes SET isaccepted = ? WHERE id = ?";
         try (PreparedStatement preparedStatement = connection.prepareStatement(query)) {
-            preparedStatement.setDate(1, Date.valueOf(quote.getIssueDate()));
-            preparedStatement.setDate(2, Date.valueOf(quote.getValidatedDate()));
-            preparedStatement.setBoolean(3, quote.isAccepted());
-            preparedStatement.setInt(4, quote.getId());
+            preparedStatement.setBoolean(1, quote.isAccepted());
+            preparedStatement.setInt(2, quote.getId());
             int affectedRows = preparedStatement.executeUpdate();
             if (affectedRows > 0) {
                 return quote;

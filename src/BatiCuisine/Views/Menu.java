@@ -141,6 +141,7 @@ public class Menu {
                     quoteView.displayAllQuotes();
                     break;
                 case "3":
+                    quoteView.AccepterQuote();
                     break;
                 case "4":
                     break;

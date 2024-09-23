@@ -15,9 +15,9 @@ public class QuoteService {
     public Quote save(Quote quote){
         return quoteRepository.save(quote);
     }
-//    public Optional<Quote> findById(int id){
-//        return quoteRepository.findById(id);
-//    }
+    public Optional<Quote> findById(int id){
+        return quoteRepository.findById(id);
+    }
     public List<Quote> findQuoteByProjectId(int projectId){
         return quoteRepository.findByProjectId(projectId);
     }

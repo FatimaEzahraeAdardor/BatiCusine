@@ -65,6 +65,31 @@ public class QuoteView {
             }
         }
     }
+    public void AccepterQuote() {
+        System.out.printf("Entrer ID de devis: ");
+        int id = scanner.nextInt();
+        scanner.nextLine();
+
+        System.out.print("Souhaitez-vous accepter ce devis ? (y/n) : ");
+        String response = scanner.nextLine();
+
+        boolean accepteQuote = response.equalsIgnoreCase("y");
+        if (accepteQuote) {
+            Optional<Quote> optionalQuote = quoteService.findById(id);
+            if (optionalQuote.isPresent()) {
+                Quote quote = optionalQuote.get();
+                quote.setAccepted(true);
+
+                quoteService.update(quote);
+                System.out.println("Devis accepté avec succès.");
+            } else {
+                System.out.println("Devis non trouvé pour l'ID donné.");
+            }
+        } else {
+            System.out.println("Devis non accepté.");
+        }
+    }
+
 
     public void delete() {
         System.out.print("Entrer nom de devis ");
