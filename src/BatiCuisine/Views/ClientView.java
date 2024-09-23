@@ -108,6 +108,23 @@ public class ClientView {
             System.out.println("Aucun client trouvé avec l'identifiant : " + id);
         }
     }
+    public Client searchClientByName() {
+        System.out.print("Entrez le nom du client :");
+        String name = scanner.nextLine();
+        Optional<Client> client = clientService.findByName(name);
+        if (client.isPresent()) {
+            Client foundClient = client.get();
+            System.out.println("Client trouvé !");
+            System.out.println("Nom : " + foundClient.getName());
+            System.out.println("Adresse : " + foundClient.getAddress());
+            System.out.println("Téléphone : " + foundClient.getPhone());
+            return foundClient;
+        } else {
+            System.out.println("Aucun client trouvé avec ce nom.");
+            return null;
+        }
+    }
+
     public void displayAllClient() {
         System.out.println("--- Liste de tous les clients ---");
         List<Client> clients = clientService.findAll();

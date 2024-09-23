@@ -96,7 +96,7 @@ public class Menu {
 
             switch(choice){
                 case "1":
-//                    client = clientUI.searchClientUI();
+                    client =clientView.searchClientByName() ;
                     break;
                 case "2":
                     client = clientView.create();
