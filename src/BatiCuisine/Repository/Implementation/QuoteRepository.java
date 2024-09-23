@@ -91,7 +91,29 @@ public class QuoteRepository implements QuoteInterface {
     }
     @Override
     public List<Quote> findAll() {
-        return null;
+        List<Quote> quotes = new ArrayList<>();
+        String query = "SELECT q.*, p.id AS project_id, p.projectname AS project_name FROM quotes q JOIN projects p ON p.id = q.project_id";
+
+        try (PreparedStatement preparedStatement = connection.prepareStatement(query);
+             ResultSet rs = preparedStatement.executeQuery()) {
+            while (rs.next()) {
+                Quote quote = new Quote();
+                quote.setId(rs.getInt("id"));
+                quote.setEstimatedAmount(rs.getDouble("estimatedamount"));
+                quote.setIssueDate(rs.getDate("issuedate").toLocalDate());
+                quote.setValidatedDate(rs.getDate("validitydate").toLocalDate());
+                quote.setAccepted(rs.getBoolean("isaccepted"));
+
+                Project project = new Project();
+                project.setId(rs.getInt("project_id"));
+                project.setProjectName(rs.getString("project_name"));
+                quote.setProject(project);
+                quotes.add(quote);
+            }
+        } catch (SQLException e) {
+            System.err.println("Error retrieving quotes: " + e.getMessage());
+        }
+        return quotes;
     }
 
     @Override

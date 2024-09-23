@@ -92,7 +92,6 @@ public class ClientView {
     public void delete(){
         System.out.println("--- Supprimer un client ---");
         int id = InputValidator.promptForInteger("Entrez id du client à supprimer : ");
-        scanner.nextLine();
         Optional<Client> existingClient = clientService.findById(id);
         if (existingClient.isPresent()) {
             clientService.delete(id);

@@ -28,8 +28,6 @@ public class MaterialView {
             materialRepository.save(material);
 
             System.out.println("Matériau ajouté avec succès !");
-            scanner.nextLine();
-
             System.out.print("Voulez-vous ajouter un autre matériau ? (y/n) : ");
 
         } while (scanner.nextLine().equalsIgnoreCase("y"));

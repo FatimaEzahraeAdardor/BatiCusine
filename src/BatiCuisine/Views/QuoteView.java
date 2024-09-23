@@ -32,7 +32,7 @@ public class QuoteView {
             if (validatedDate.isAfter(issueDate) || validatedDate.isEqual(issueDate)) {
                 break;
             } else {
-                System.out.println("La date de validité ne peut pas être antérieure à la date d'émission. Veuillez entrer une date valide.");
+                System.out.println("La date de validité ne peut pas être anférieure à la date d'émission. Veuillez entrer une date valide.");
             }
         }
         Quote quote = new Quote(estimatedAmount, issueDate, validatedDate, false, project);
@@ -93,7 +93,6 @@ public class QuoteView {
     }
     public void AccepterQuote() {
         int id = InputValidator.promptForInteger("Entrer ID de devi: ");
-        scanner.nextLine();
         System.out.print("Souhaitez-vous accepter ce devis ? (y/n) : ");
         String response = scanner.nextLine();
 
@@ -117,7 +116,6 @@ public class QuoteView {
 
     public void delete() {
         int id = InputValidator.promptForInteger("Entrer ID de devi: ");
-        scanner.nextLine();
         Optional<Quote> existingDevi = quoteService.findById(id);
         if (existingDevi.isPresent()) {
             quoteService.delete(id);
