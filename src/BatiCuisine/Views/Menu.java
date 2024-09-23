@@ -5,6 +5,14 @@ import BatiCuisine.Entities.Client;
 import java.util.Scanner;
 
 public class Menu {
+    // ANSI color codes
+    final String RESET = "\u001B[0m";
+    final String RED = "\u001B[31m";
+    final String GREEN = "\u001B[32m";
+    final String YELLOW = "\u001B[33m";
+    final String BLUE = "\u001B[34m";
+    final String CYAN = "\u001B[36m";
+    final String PURPLE = "\u001B[35m";
     Scanner scanner = new Scanner(System.in);
     private boolean bool;
     ClientView clientView = new ClientView();
@@ -14,12 +22,13 @@ public class Menu {
 
         while (true){
             bool = false;
-            System.out.println("* ================== Menu Principal ====================== *");
-            System.out.println("*  1. Gestion de Client *");
-            System.out.println("*  2. Gestion de Projet *");
-            System.out.println("*  3. Gestion des devis*");
-            System.out.println("*  4. Quitter *");
-            System.out.println("* =========================================================== *\n");
+            System.out.println(CYAN + "* ======================= Menu Principal ======================= *\n" + RESET);
+            System.out.println(YELLOW + "* 1. Gestion de Client                                           *" );
+            System.out.println(YELLOW + "* 2. Gestion de Projet                                           *" );
+            System.out.println(YELLOW + "* 3. Gestion des devis                                           *" );
+            System.out.println(YELLOW + "* 4. Quitter                                                     *\n");
+            System.out.println(CYAN + "* ============================================================== *\n" + RESET);
+
 
             System.out.print("eChoisissez une option : ");
             String choice = scanner.nextLine();
@@ -43,14 +52,14 @@ public class Menu {
     }
     public void clientMenu() {
         while(!bool) {
-            System.out.println("*======================= Gestion de Client ========================== *");
-            System.out.println("*  1. Ajouter un client *");
-            System.out.println("*  2. Modifier un client *");
-            System.out.println("*  3. supprimer client *");
-            System.out.println("*  4. Affichage des clients *");
-            System.out.println("*  5. Return to Main Menu *");
-            System.out.println("*  6. Quitter *");
-            System.out.println("* ======================================================================= *\n");
+            System.out.println(PURPLE + "* ======================= Gestion de Client ======================= *\n" + RESET);
+            System.out.println(GREEN + "* 1. Ajouter un client                                              *");
+            System.out.println(GREEN + "* 2. Modifier un client                                             *");
+            System.out.println(GREEN + "* 3. supprimer client                                               *");
+            System.out.println(GREEN + "* 4. Affichage des clients                                          *");
+            System.out.println(GREEN + "* 5. Return to Main Menu                                            *");
+            System.out.println(GREEN + "* 6. Quitter                                                        *\n");
+            System.out.println(PURPLE +"* ================================================================== *\n" + RESET);
 
             System.out.print("enter your choice: ");
             String choice = scanner.nextLine();
@@ -83,12 +92,12 @@ public class Menu {
     }
     public void projectMenu(){
         while(!bool){
-            System.out.println("\n* Souhaitez-vous chercher un client existant ou en ajouter un nouveau ? *");
-            System.out.println("*  1. Chercher un client existant *");
-            System.out.println("*  2. Ajouter un nouveau client *");
-            System.out.println("*  3. Return to Main Menu *");
-            System.out.println("*  4. Quitter *");
-            System.out.println("=======================================================================\n");
+            System.out.println("\n* Souhaitez-vous chercher un client existant ou en ajouter un nouveau ? *\n");
+            System.out.println(BLUE + "* 1. Chercher un client existant                                        *");
+            System.out.println(BLUE + "* 2. Ajouter un nouveau client                                          *");
+            System.out.println(BLUE + "* 3. Return to Main Menu                                                *");
+            System.out.println(BLUE + "* 4. Quitter                                                            *\n"+ RESET);
+            System.out.println("=========================================================================\n");
 
             System.out.print("enter your choice: ");
             String choice = scanner.nextLine();
@@ -122,14 +131,14 @@ public class Menu {
     public void quoteMenu() {
         boolean quitter = false;
         while(!quitter) {
-            System.out.println("*====================== Gestion des devis ===============================*");
-            System.out.println("*  1. Afficher tous les projets *");
-            System.out.println("*  2. Afficher tous les devis *");
-            System.out.println("*  3. Accepter un devis *");
-            System.out.println("*  4. Supprimer un devis *");
-            System.out.println("*  5. Retourner au menu principal *");
-            System.out.println("*  6. Quitter *");
-
+            System.out.println(YELLOW +"* ====================== Gestion des devis =============================== *\n"+ RESET);
+            System.out.println("*  1. Afficher tous les projets                                            *");
+            System.out.println("*  2. Afficher tous les devis                                              *");
+            System.out.println("*  3. Accepter un devis                                                    *");
+            System.out.println("*  4. Supprimer un devis                                                   *");
+            System.out.println("*  5. Retourner au menu principal                                          *");
+            System.out.println("*  6. Quitter                                                              *\n");
+            System.out.println(YELLOW + "* ======================================================================== *\n"+ RESET);
             System.out.print("Entrez votre choix : ");
             String choix = scanner.nextLine();
 
