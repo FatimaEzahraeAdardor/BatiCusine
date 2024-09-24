@@ -14,7 +14,7 @@ public class InputValidator {
             try {
                 return Double.parseDouble(scanner.nextLine().trim());
             } catch (NumberFormatException e) {
-                System.out.println("Veuillez entrer un nombre décimal valide.");
+                System.out.println("Veuillez entrer un nombre decimal valide.");
             }
         }
     }

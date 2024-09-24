@@ -46,7 +46,7 @@ public class Menu {
                     System.out.println("Au revoir !");
                     System.exit(0);
                 default:
-                    System.out.println("Option invalide. Veuillez réessayer.");
+                    System.out.println("Option invalide. Veuillez reessayer.");
             }
         }
     }
@@ -85,7 +85,7 @@ public class Menu {
                     System.out.println("Quitter");
                     System.exit(0);
                 default:
-                    System.out.println("Option invalide. Veuillez réessayer.");
+                    System.out.println("Option invalide. Veuillez reessayer.");
             }
 
         }
@@ -123,7 +123,7 @@ public class Menu {
             if (client != null) {
                 projectView.saveProjectForClient(client);
             } else {
-                System.out.println("Client non trouvé ou création échouée.");
+                System.out.println("Client non trouve ou creation echouee.");
             }
 
         }
@@ -132,7 +132,7 @@ public class Menu {
         while(!bool) {
             System.out.println(YELLOW +"* ========================== Gestion des devis =========================== *\n"+ RESET);
             System.out.println("*  1. Afficher tous les projets                                            *");
-            System.out.println("*  2. Afficher le devis spécifique à un projet                             *");
+            System.out.println("*  2. Afficher le devis specifique  un projet                             *");
             System.out.println("*  3. Afficher tous les devis                                              *");
             System.out.println("*  4. Accepter un devis                                                    *");
             System.out.println("*  5. Supprimer un devis                                                   *");

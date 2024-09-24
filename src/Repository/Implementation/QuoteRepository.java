@@ -79,13 +79,13 @@ public class QuoteRepository implements QuoteInterface {
               quote.setValidatedDate(resultSet.getDate("validitydate").toLocalDate());
               quote.setAccepted(resultSet.getBoolean("isaccepted"));
 
-              // Récupérer le projet associé si présent
+              // Recuperer le projet associe si present
               int projectId = resultSet.getInt("project_id");
               if (!resultSet.wasNull()) {
                   Project project = new Project();
                   project.setId(projectId);
                   project.setProjectName(resultSet.getString("projectname"));
-                  // Vous pouvez également récupérer d'autres attributs du projet ici si nécessaire
+                  // Vous pouvez egalement recuperer d'autres attributs du projet ici si necessaire
                   quote.setProject(project);
               }
 

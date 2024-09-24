@@ -17,7 +17,7 @@ public class ClientService {
     public Client save(Client client){
         Optional<Client> existingClient = findByName(client.getName());
         if (existingClient.isPresent()) {
-            System.out.println("Le client existe déjà. Veuillez utiliser un nom différent.");
+            System.out.println("Le client existe dej. Veuillez utiliser un nom different.");
             return null;
         }
         clientRepository.save(client);

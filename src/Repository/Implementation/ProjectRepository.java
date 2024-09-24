@@ -49,12 +49,12 @@ public class ProjectRepository implements ProjectInterface {
             statement.setInt(4, project.getId());
             int rowsUpdated = statement.executeUpdate();
             if (rowsUpdated > 0) {
-                System.out.println("Projet mis à jour avec succès.");
+                System.out.println("Projet mis  jour avec succès.");
             } else {
-                System.out.println("Aucune ligne n'a été mise à jour. Vérifiez les données.");
+                System.out.println("Aucune ligne n'a ete mise  jour. Verifiez les donnees.");
             }
         } catch (SQLException e) {
-            System.out.println("Erreur lors de la mise à jour du projet : " + e.getMessage());
+            System.out.println("Erreur lors de la mise  jour du projet : " + e.getMessage());
         }
         return project;
     }

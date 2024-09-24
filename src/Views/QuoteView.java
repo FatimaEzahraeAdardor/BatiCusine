@@ -26,20 +26,20 @@ public class QuoteView {
     public void AddQuote(Project project) {
         System.out.println("\n------------------ Enregistrement de devis -----------------------\n");
         Double estimatedAmount = project.getTotalCost();
-        LocalDate issueDate = InputValidator.promptForDate("Entrez la date d'émission (yyyy-MM-dd) : ");
+        LocalDate issueDate = InputValidator.promptForDate("Entrez la date d'emission (yyyy-MM-dd) : ");
         LocalDate validatedDate;
         while (true) {
-            validatedDate = InputValidator.promptForDate("Entrez la date de validité (yyyy-MM-dd) : ");
+            validatedDate = InputValidator.promptForDate("Entrez la date de validite (yyyy-MM-dd) : ");
             if (validatedDate.isAfter(issueDate) || validatedDate.isEqual(issueDate)) {
                 break;
             } else {
-                System.out.println("La date de validité ne peut pas être anférieure à la date d'émission. Veuillez entrer une date valide.");
+                System.out.println("La date de validite ne peut pas être anferieure  la date d'emission. Veuillez entrer une date valide.");
             }
         }
         Quote quote = new Quote(estimatedAmount, issueDate, validatedDate, false, project);
         quoteService.save(quote);
 
-        System.out.println("Devis enregistré avec succès !");
+        System.out.println("Devis enregistre avec succès !");
     }
 
 
@@ -48,24 +48,24 @@ public class QuoteView {
         Optional<Project> project = projectService.findById(projectId);
 
         if (project.isEmpty()) {
-            System.out.println("Projet avec ID " + projectId + " non trouvé.");
+            System.out.println("Projet avec ID " + projectId + " non trouve.");
             return;
         }
         System.out.println("--- Liste de tous les devis ---");
         Optional<Quote> quote = quoteService.findQuoteByProjectId(projectId);
 
         if (quote.isEmpty()) {
-            System.out.println("Aucun devis trouvé pour ce projet.");
+            System.out.println("Aucun devis trouve pour ce projet.");
         } else {
             System.out.println("\n+------+------------------+--------------------------+---------------------+------------------+");
             System.out.printf("| %-4s | %-16s | %-24s | %-20s | %-16s |\n",
-                    "ID", "Montant Estimé", "Date d'Émission", "Statut", "Nom du Projet");
+                    "ID", "Montant Estime", "Date d'emission", "Statut", "Nom du Projet");
             System.out.println("+------+------------------+--------------------------+---------------------+------------------+");
              System.out.printf("| %-4s | %-16.2f | %-24s | %-20s | %-16s |\n",
                         quote.get().getId(),
                         quote.get().getEstimatedAmount(),
                         quote.get().getIssueDate(),
-                        quote.get().isAccepted() ? "Accepté" : "Refusé",
+                        quote.get().isAccepted() ? "Accepte" : "Refuse",
                         quote.get().getProject().getProjectName());
                 System.out.println("+------+------------------+--------------------------+---------------------+------------------+");
             }
@@ -74,11 +74,11 @@ public class QuoteView {
         System.out.println("--- Liste de tous les devis ---");
         List<Quote> quotes = quoteService.findAll();
         if (quotes.isEmpty()) {
-            System.out.println("Aucun devis trouvé pour ce projet.");
+            System.out.println("Aucun devis trouve pour ce projet.");
         } else {
             System.out.println("\n+------+------------------+--------------------------+---------------------+------------------+");
             System.out.printf("| %-4s | %-16s | %-24s | %-20s | %-16s |\n",
-                    "ID", "Montant Estimé", "Date d'Émission", "Statut", "Nom du Projet");
+                    "ID", "Montant Estime", "Date d'emission", "Statut", "Nom du Projet");
             System.out.println("+------+------------------+--------------------------+---------------------+------------------+");
 
             for (Quote quote : quotes) {
@@ -86,7 +86,7 @@ public class QuoteView {
                         quote.getId(),
                         quote.getEstimatedAmount(),
                         quote.getIssueDate(),
-                        quote.isAccepted() ? "Accepté" : "Refusé",
+                        quote.isAccepted() ? "Accepte" : "Refuse",
                         quote.getProject().getProjectName());
                 System.out.println("+------+------------------+--------------------------+---------------------+------------------+");
             }
@@ -106,24 +106,24 @@ public void AccepterQuote() {
         if (accepteQuote) {
             quote.setAccepted(true);
             quoteService.update(quote);
-            System.out.println("Devis accepté avec succès.");
+            System.out.println("Devis accepte avec succès.");
             Project project = quote.getProject();
             if (project != null) {
                 project.setStatus(ProjectStatus.INPROGRESS);
                 projectService.update(project);
-                System.out.println("Statut du projet mis à jour en ACTIVE.");
+                System.out.println("Statut du projet mis  jour en ACTIVE.");
             }
         } else {
-            System.out.println("Devis non accepté.");
+            System.out.println("Devis non accepte.");
             Project project = quote.getProject();
             if (project != null) {
                 project.setStatus(ProjectStatus.CANCELLED);
                 projectService.update(project);
-                System.out.println("Statut du projet mis à jour en CANCELLED.");
+                System.out.println("Statut du projet mis  jour en CANCELLED.");
             }
         }
     } else {
-        System.out.println("Devis non trouvé pour l'ID donné.");
+        System.out.println("Devis non trouve pour l'ID donne.");
     }
 }
 
@@ -134,9 +134,9 @@ public void AccepterQuote() {
         Optional<Quote> existingDevi = quoteService.findById(id);
         if (existingDevi.isPresent()) {
             quoteService.delete(id);
-            System.out.println("Devi supprimé avec succès !");
+            System.out.println("Devi supprime avec succès !");
         } else {
-            System.out.println("Aucun devi trouvé avec l'identifiant : " + id);
+            System.out.println("Aucun devi trouve avec l'identifiant : " + id);
         }
     }
 }

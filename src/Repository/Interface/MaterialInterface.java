@@ -16,6 +16,6 @@ public interface MaterialInterface {
     Material update(Material material);
 
     Boolean delete(int id);
-    List<Material> findByProject(Project project); // Nouvelle méthode
+    List<Material> findByProject(Project project); // Nouvelle methode
 
 }

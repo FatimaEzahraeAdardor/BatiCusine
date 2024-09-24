@@ -15,20 +15,20 @@ public class MaterialView {
         this.materialRepository = new MaterialRepository();
     }
     public void createMaterial(Project project) {
-        System.out.println("----------------------- Ajout des matériaux -------------------------");
+        System.out.println("----------------------- Ajout des materiaux -------------------------");
 
         do {
-            String name = InputValidator.promptForString("Entrez le nom du matériau : ");
-            double quantity = InputValidator.promptForDouble("Entrez la quantité de ce matériau (en m²) : ");
-            double unitCost = InputValidator.promptForDouble("Entrez le coût unitaire de ce matériau (€/m²) : ");
-            double transportCost = InputValidator.promptForDouble("Entrez le coût de transport de ce matériau (€) : ");
-            double qualityCoefficient = InputValidator.promptForDouble("Entrez le coefficient de qualité du matériau (1.0 = standard, > 1.0 = haute qualité) : ");
+            String name = InputValidator.promptForString("Entrez le nom du materiau : ");
+            double quantity = InputValidator.promptForDouble("Entrez la quantite de ce materiau (en m²) : ");
+            double unitCost = InputValidator.promptForDouble("Entrez le cout unitaire de ce materiau (€/m²) : ");
+            double transportCost = InputValidator.promptForDouble("Entrez le cout de transport de ce materiau (€) : ");
+            double qualityCoefficient = InputValidator.promptForDouble("Entrez le coefficient de qualite du materiau (1.0 = standard, > 1.0 = haute qualite) : ");
 
             Material material = new Material(name, "Material", 0.20, project, unitCost, quantity, transportCost, qualityCoefficient);
             materialRepository.save(material);
 
-            System.out.println("Matériau ajouté avec succès !");
-            System.out.print("Voulez-vous ajouter un autre matériau ? (y/n) : ");
+            System.out.println("Materiau ajoute avec succès !");
+            System.out.print("Voulez-vous ajouter un autre materiau ? (y/n) : ");
 
         } while (scanner.nextLine().equalsIgnoreCase("y"));
     }
