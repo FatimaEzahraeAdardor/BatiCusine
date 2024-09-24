@@ -41,11 +41,12 @@ public class ProjectRepository implements ProjectInterface {
     }
     @Override
     public Project update(Project project) {
-        String query = "UPDATE projects SET projectstatus = ?::project_status WHERE id = ?";
+        String query = "UPDATE projects SET profitmargin = ?, totalcost = ?, projectstatus = ?::project_status WHERE id = ?";
         try (PreparedStatement statement = connection.prepareStatement(query)) {
-            statement.setObject(1, project.getStatus().name());
-            statement.setInt(2, project.getId());
-
+            statement.setDouble(1, project.getProfitMargin());
+            statement.setDouble(2, project.getTotalCost());
+            statement.setObject(3, project.getStatus().name());
+            statement.setInt(4, project.getId());
             int rowsUpdated = statement.executeUpdate();
             if (rowsUpdated > 0) {
                 System.out.println("Projet mis à jour avec succès.");
@@ -57,6 +58,7 @@ public class ProjectRepository implements ProjectInterface {
         }
         return project;
     }
+
 
     @Override
     public Optional<Project> findById(int id) {
