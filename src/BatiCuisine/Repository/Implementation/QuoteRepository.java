@@ -41,28 +41,62 @@ public class QuoteRepository implements QuoteInterface {
     }
 
   @Override
-    public Optional<Quote> findById(int id) {
-         String query = "SELECT * FROM quotes WHERE id = ?";
+//    public Optional<Quote> findById(int id) {
+//         String query = "SELECT * FROM quotes WHERE id = ?";
+//
+//        try (PreparedStatement preparedStatement = connection.prepareStatement(query)) {
+//            preparedStatement.setInt(1, id);
+//            ResultSet rs = preparedStatement.executeQuery();
+//
+//            if (rs.next()) {
+//                Quote quote = new Quote();
+//                quote.setId(rs.getInt("id"));
+//                quote.setEstimatedAmount(rs.getDouble("estimatedamount"));
+//                quote.setIssueDate(rs.getDate("issuedate").toLocalDate());
+//                quote.setValidatedDate(rs.getDate("validitydate").toLocalDate());
+//                quote.setAccepted(rs.getBoolean("isaccepted"));
+//
+//                return Optional.of(quote);
+//            }
+//        } catch (SQLException e) {
+//            System.out.println(e.getMessage());
+//        }
+//        return Optional.empty();
+//    }
+  public Optional<Quote> findById(int id) {
+      String query = "SELECT q.id, q.estimatedamount, q.issuedate, q.validitydate, q.isaccepted, p.id AS project_id, p.projectname " +
+              "FROM quotes q " +
+              "LEFT JOIN projects p ON q.project_id = p.id " +
+              "WHERE q.id = ?";
+      try (PreparedStatement statement = connection.prepareStatement(query)) {
+          statement.setInt(1, id);
+          ResultSet resultSet = statement.executeQuery();
+          if (resultSet.next()) {
+              Quote quote = new Quote();
+              quote.setId(resultSet.getInt("id"));
+              quote.setEstimatedAmount(resultSet.getDouble("estimatedamount"));
+              quote.setIssueDate(resultSet.getDate("issuedate").toLocalDate());
+              quote.setValidatedDate(resultSet.getDate("validitydate").toLocalDate());
+              quote.setAccepted(resultSet.getBoolean("isaccepted"));
 
-        try (PreparedStatement preparedStatement = connection.prepareStatement(query)) {
-            preparedStatement.setInt(1, id);
-            ResultSet rs = preparedStatement.executeQuery();
+              // Récupérer le projet associé si présent
+              int projectId = resultSet.getInt("project_id");
+              if (!resultSet.wasNull()) {
+                  Project project = new Project();
+                  project.setId(projectId);
+                  project.setProjectName(resultSet.getString("projectname"));
+                  // Vous pouvez également récupérer d'autres attributs du projet ici si nécessaire
+                  quote.setProject(project);
+              }
 
-            if (rs.next()) {
-                Quote quote = new Quote();
-                quote.setId(rs.getInt("id"));
-                quote.setEstimatedAmount(rs.getDouble("estimatedamount"));
-                quote.setIssueDate(rs.getDate("issuedate").toLocalDate());
-                quote.setValidatedDate(rs.getDate("validitydate").toLocalDate());
-                quote.setAccepted(rs.getBoolean("isaccepted"));
+              return Optional.of(quote);
+          }
+      } catch (SQLException e) {
+          System.out.println(e.getMessage());
+      }
+      return Optional.empty();
+  }
 
-                return Optional.of(quote);
-            }
-        } catch (SQLException e) {
-            System.out.println(e.getMessage());
-        }
-        return Optional.empty();
-    }
 
     @Override
     public Optional<Quote> findByProjectId(int id) {

@@ -15,7 +15,7 @@ public class MaterialView {
         this.materialRepository = new MaterialRepository();
     }
     public void createMaterial(Project project) {
-        System.out.println("--- Ajout des matériaux ---");
+        System.out.println("----------------------- Ajout des matériaux -------------------------");
 
         do {
             String name = InputValidator.promptForString("Entrez le nom du matériau : ");

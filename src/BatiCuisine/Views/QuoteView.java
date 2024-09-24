@@ -3,6 +3,7 @@ package BatiCuisine.Views;
 import BatiCuisine.Entities.Client;
 import BatiCuisine.Entities.Project;
 import BatiCuisine.Entities.Quote;
+import BatiCuisine.Enums.ProjectStatus;
 import BatiCuisine.Services.ProjectService;
 import BatiCuisine.Services.QuoteService;
 import BatiCuisine.utils.InputValidator;
@@ -23,7 +24,7 @@ public class QuoteView {
         this.scanner = new Scanner(System.in);
     }
     public void AddQuote(Project project) {
-        System.out.println("----- Enregistrement de devis ----");
+        System.out.println("\n------------------ Enregistrement de devis -----------------------\n");
         Double estimatedAmount = project.getTotalCost();
         LocalDate issueDate = InputValidator.promptForDate("Entrez la date d'émission (yyyy-MM-dd) : ");
         LocalDate validatedDate;
@@ -91,27 +92,41 @@ public class QuoteView {
             }
         }
     }
-    public void AccepterQuote() {
-        int id = InputValidator.promptForInteger("Entrer ID de devi: ");
-        System.out.print("Souhaitez-vous accepter ce devis ? (y/n) : ");
-        String response = scanner.nextLine();
+public void AccepterQuote() {
+    int id = InputValidator.promptForInteger("Entrer ID de devis : ");
+    System.out.print("Souhaitez-vous accepter ce devis ? (y/n) : ");
+    String response = scanner.nextLine();
 
-        boolean accepteQuote = response.equalsIgnoreCase("y");
+    boolean accepteQuote = response.equalsIgnoreCase("y");
+    Optional<Quote> optionalQuote = quoteService.findById(id);
+
+    if (optionalQuote.isPresent()) {
+        Quote quote = optionalQuote.get();
+
         if (accepteQuote) {
-            Optional<Quote> optionalQuote = quoteService.findById(id);
-            if (optionalQuote.isPresent()) {
-                Quote quote = optionalQuote.get();
-                quote.setAccepted(true);
-
-                quoteService.update(quote);
-                System.out.println("Devis accepté avec succès.");
-            } else {
-                System.out.println("Devis non trouvé pour l'ID donné.");
+            quote.setAccepted(true);
+            quoteService.update(quote);
+            System.out.println("Devis accepté avec succès.");
+            Project project = quote.getProject();
+            if (project != null) {
+                project.setStatus(ProjectStatus.INPROGRESS);
+                projectService.update(project);
+                System.out.println("Statut du projet mis à jour en ACTIVE.");
             }
         } else {
             System.out.println("Devis non accepté.");
+            Project project = quote.getProject();
+            if (project != null) {
+                project.setStatus(ProjectStatus.CANCELLED);
+                projectService.update(project);
+                System.out.println("Statut du projet mis à jour en CANCELLED.");
+            }
         }
+    } else {
+        System.out.println("Devis non trouvé pour l'ID donné.");
     }
+}
+
 
 
     public void delete() {

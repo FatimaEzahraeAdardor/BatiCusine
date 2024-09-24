@@ -11,8 +11,8 @@ public class LaborView {
     LaborService laborService = new LaborService();
     Scanner scanner =new Scanner(System.in);
     public void createLabor(Project project) {
+        System.out.println("-------------------- Ajout de la main-d'œuvre ----------------------");
         do {
-            System.out.println("--- Ajout de la main-d'œuvre ---");
             String name = InputValidator.promptForString("Entrez le type de main-d'œuvre (e.g., Ouvrier de base, Spécialiste) : ");
             double hoursCost = InputValidator.promptForDouble("Entrez le taux horaire de cette main-d'œuvre (€/h) : ");
             double workingHours = InputValidator.promptForDouble("Entrez le nombre d'heures travaillées : ");

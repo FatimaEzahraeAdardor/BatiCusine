@@ -8,7 +8,6 @@ import java.util.Scanner;
 public class InputValidator {
    private static Scanner scanner = new Scanner(System.in);
 
-    // Method to prompt for a double value
     public static double promptForDouble(String message) {
         while (true) {
             System.out.print(message);
@@ -29,9 +28,6 @@ public class InputValidator {
             }
         }
     }
-
-
-    // Method to prompt for an integer value
     public static int promptForInteger(String message) {
         while (true) {
             System.out.print(message);
@@ -42,8 +38,6 @@ public class InputValidator {
             }
         }
     }
-
-    // Method to prompt for a non-empty string
     public static String promptForString(String message) {
         while (true) {
             System.out.print(message);

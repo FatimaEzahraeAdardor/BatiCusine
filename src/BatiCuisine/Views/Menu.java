@@ -132,7 +132,7 @@ public class Menu {
         while(!bool) {
             System.out.println(YELLOW +"* ========================== Gestion des devis =========================== *\n"+ RESET);
             System.out.println("*  1. Afficher tous les projets                                            *");
-            System.out.println("*  2. Afficher le devis specific auu projets                                            *");
+            System.out.println("*  2. Afficher le devis spécifique à un projet                             *");
             System.out.println("*  3. Afficher tous les devis                                              *");
             System.out.println("*  4. Accepter un devis                                                    *");
             System.out.println("*  5. Supprimer un devis                                                   *");

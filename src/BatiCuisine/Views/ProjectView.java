@@ -29,7 +29,7 @@ public class ProjectView {
     }
 
     public void saveProjectForClient(Client client) {
-        System.out.println("-----Création d'un Nouveau Projet-----");
+        System.out.println("-------------------- Création d'un Nouveau Projet ------------------");
         String name = InputValidator.promptForString("Entrer nom de projet : ");
         Project project = new Project(name, 0.0, 0.0, ProjectStatus.INPROGRESS, client);
         Project savedProject = projectService.save(project);
@@ -43,15 +43,15 @@ public class ProjectView {
     public void calculateProjectCost(Project project) {
         double totalMaterialCost = 0;
         double totalLaborCost = 0;
-        System.out.println("--- Calcul du coût total ---");
+        System.out.println("-------------------- Calcul du coût total --------------------------");
 
-        // Calculate total material and labor costs
+        // Calculer le coût total des matériaux et de la main-d'œuvre
         totalMaterialCost = materialService.calculateTotalMaterialCost(project);
         totalLaborCost = laborService.calculateTotalLaborCost(project);
 
         double totalCostBeforeVAT = totalMaterialCost + totalLaborCost;
 
-        // Apply VAT if necessary
+        // Appliquer la TVA si nécessaire
         boolean applyVAT = InputValidator.promptForString("Souhaitez-vous appliquer une TVA au projet ? (y/n) : ")
                 .equalsIgnoreCase("y");
         double vatRate = 0;
@@ -60,7 +60,7 @@ public class ProjectView {
         }
         double totalCostWithVAT = totalCostBeforeVAT * (1 + vatRate / 100);
 
-        // Apply Profit Margin if necessary
+        // Appliquer la marge bénéficiaire si nécessaire
         boolean applyProfitMargin = InputValidator.promptForString("Souhaitez-vous appliquer une marge bénéficiaire au projet ? (y/n) : ")
                 .equalsIgnoreCase("y");
         double profitMarginRate = 0;
@@ -69,17 +69,27 @@ public class ProjectView {
         }
         double finalTotalCost = totalCostWithVAT * (1 + profitMarginRate / 100);
 
-        // Update the project with calculated costs
+        // Demander si le client est professionnel pour appliquer une remise
+        boolean isProfessionalClient = project.getClient().isProfessional();
+        if (isProfessionalClient) {
+            boolean applyDiscount = InputValidator.promptForString("Souhaitez-vous appliquer une remise au client professionnel ? (y/n) : ")
+                    .equalsIgnoreCase("y");
+            if (applyDiscount) {
+                double discountRate = InputValidator.promptForDouble("Entrez le pourcentage de remise (%) : ");
+                finalTotalCost = finalTotalCost * (1 - discountRate / 100);
+            }
+        }
+
+        // Mettre à jour le projet avec les coûts calculés
         project.setTotalCost(finalTotalCost);
         project.setProfitMargin(profitMarginRate);
         projectService.update(project);
 
-        // Display project details with calculated costs
         displayProjectDetails(project, totalMaterialCost, totalLaborCost, totalCostBeforeVAT, vatRate, profitMarginRate, finalTotalCost);
     }
 
     public void displayProjectDetails(Project project, double materialCost, double laborCost, double costBeforeVAT, double vatRate, double profitMarginRate, double finalCost) {
-        System.out.println("--- Résultat du Calcul ---");
+        System.out.println("-------------------- Résultat du Calcul ----------------------------");
         System.out.printf("Nom du projet : \n" + project.getProjectName());
         System.out.printf("Client : \n" + project.getClient().getName());
         System.out.printf("Adresse du chantier : \n" + project.getClient().getAddress());
@@ -101,7 +111,7 @@ public class ProjectView {
     }
 
     public void displayAllProjects() {
-        System.out.println("--- Liste de tous les projets ---");
+        System.out.println("-------------------- Liste de tous les projets ---------------------");
         List<Project> projects = projectService.findAll();
         if (projects.isEmpty()) {
             System.out.println("Aucun projet trouvé.");

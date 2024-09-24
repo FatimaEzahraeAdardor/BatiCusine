@@ -28,4 +28,9 @@ public class ProjectService {
     public List<Project> findAll(){
         return projectRepository.findAll();
     }
+    public Boolean delete(int id) {
+        return projectRepository.delete(id);
+    }
+
+
 }

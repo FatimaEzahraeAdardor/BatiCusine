@@ -12,6 +12,7 @@ public interface ProjectInterface {
   Optional<Project> findById(int id);
   Project findByName(String name);
   List<Project> findAll();
+  Boolean delete(int id);
 
 
 }

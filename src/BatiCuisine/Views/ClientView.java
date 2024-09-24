@@ -45,7 +45,7 @@ public class ClientView {
     }
 
     public void update(){
-        System.out.println("--- Modifier un client ---");
+        System.out.println("-------------------- Modifier un client ---------------------------");
         String nom = InputValidator.promptForString("Entrez le nom du client à modifier : ");
         Optional<Client> existingClient = clientService.findByName(nom);
         if (existingClient.isPresent()) {
@@ -84,13 +84,12 @@ public class ClientView {
             System.out.println("Nom : " + updatedClient.getName());
             System.out.println("Adresse : " + updatedClient.getAddress());
             System.out.println("Téléphone : " + updatedClient.getPhone());
-//            System.out.println("Vous pouvez maintenant créer le projet pour " + name + ".");
         } else {
             System.out.println("Aucun client trouvé avec le nom : " + nom);
         }
     }
     public void delete(){
-        System.out.println("--- Supprimer un client ---");
+        System.out.println("-------------------- Supprimer un client ---------------------------");
         int id = InputValidator.promptForInteger("Entrez id du client à supprimer : ");
         Optional<Client> existingClient = clientService.findById(id);
         if (existingClient.isPresent()) {
@@ -117,7 +116,7 @@ public class ClientView {
     }
 
     public void displayAllClient() {
-        System.out.println("--- Liste de tous les clients ---");
+        System.out.println("-------------------- Liste de tous les clients ---------------------");
         List<Client> clients = clientService.findAll();
         if (clients.isEmpty()) {
             System.out.println("Aucun client trouvé.");

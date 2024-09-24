@@ -41,18 +41,19 @@ public class ProjectRepository implements ProjectInterface {
     }
     @Override
     public Project update(Project project) {
-        String query = "UPDATE projects SET projectname = ?, profitmargin = ?, totalcost = ?, projectstatus = ?::project_status, client_id = ? WHERE id = ?";
+        String query = "UPDATE projects SET projectstatus = ?::project_status WHERE id = ?";
         try (PreparedStatement statement = connection.prepareStatement(query)) {
-            statement.setString(1, project.getProjectName());
-            statement.setDouble(2, project.getProfitMargin());
-            statement.setDouble(3, project.getTotalCost());
-            statement.setObject(4, project.getStatus().name());
-            statement.setInt(5, project.getClient().getId());
-            statement.setInt(6, project.getId());
+            statement.setObject(1, project.getStatus().name());
+            statement.setInt(2, project.getId());
 
-            statement.executeUpdate();
+            int rowsUpdated = statement.executeUpdate();
+            if (rowsUpdated > 0) {
+                System.out.println("Projet mis à jour avec succès.");
+            } else {
+                System.out.println("Aucune ligne n'a été mise à jour. Vérifiez les données.");
+            }
         } catch (SQLException e) {
-            System.out.println(e.getMessage());
+            System.out.println("Erreur lors de la mise à jour du projet : " + e.getMessage());
         }
         return project;
     }
@@ -130,4 +131,16 @@ public class ProjectRepository implements ProjectInterface {
         return projects;
     }
 
+    @Override
+    public Boolean delete(int id) {
+        String query = "DELETE FROM projects WHERE id=?";
+        try (PreparedStatement preparedStatement = connection.prepareStatement(query)) {
+            preparedStatement.setInt(1, id);
+            int affectedRows = preparedStatement.executeUpdate();
+            return affectedRows > 0;
+        }catch (SQLException e){
+            System.out.println(e.getMessage());
+        }
+        return false;
+    }
 }
