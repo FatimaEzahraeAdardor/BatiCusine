@@ -90,9 +90,9 @@ public class ProjectView {
 
     public void displayProjectDetails(Project project, double materialCost, double laborCost, double costBeforeVAT, double vatRate, double profitMarginRate, double finalCost) {
         System.out.println("-------------------- Résultat du Calcul ----------------------------");
-        System.out.printf("Nom du projet : \n" + project.getProjectName());
-        System.out.printf("Client : \n" + project.getClient().getName());
-        System.out.printf("Adresse du chantier : \n" + project.getClient().getAddress());
+        System.out.println("Nom du projet : \n" + project.getProjectName());
+        System.out.println("Client : \n" + project.getClient().getName());
+        System.out.println("Adresse du chantier : \n" + project.getClient().getAddress());
 
         System.out.println("--- Détail des Coûts ---");
         System.out.printf("1. Matériaux :\n- Coût total  : %.2f €\n", materialCost);
