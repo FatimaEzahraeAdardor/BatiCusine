@@ -1,10 +1,10 @@
-package BatiCuisine.Repository.Implementation;
+package Repository.Implementation;
 
-import BatiCuisine.Config.DataBaseConnection;
-import BatiCuisine.Entities.Client;
-import BatiCuisine.Entities.Project;
-import BatiCuisine.Enums.ProjectStatus;
-import BatiCuisine.Repository.Interface.ProjectInterface;
+import Config.DataBaseConnection;
+import Entities.Client;
+import Entities.Project;
+import Enums.ProjectStatus;
+import Repository.Interface.ProjectInterface;
 
 import java.sql.*;
 import java.util.ArrayList;

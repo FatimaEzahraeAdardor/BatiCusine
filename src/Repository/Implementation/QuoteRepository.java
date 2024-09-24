@@ -1,9 +1,9 @@
-package BatiCuisine.Repository.Implementation;
+package Repository.Implementation;
 
-import BatiCuisine.Config.DataBaseConnection;
-import BatiCuisine.Entities.Project;
-import BatiCuisine.Entities.Quote;
-import BatiCuisine.Repository.Interface.QuoteInterface;
+import Config.DataBaseConnection;
+import Entities.Project;
+import Entities.Quote;
+import Repository.Interface.QuoteInterface;
 
 import java.sql.*;
 import java.util.ArrayList;

@@ -1,4 +1,4 @@
-package BatiCuisine.Entities;
+package Entities;
 
 import java.time.LocalDate;
 

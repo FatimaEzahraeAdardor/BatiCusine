@@ -1,8 +1,8 @@
-package BatiCuisine.Views;
+package Views;
 
-import BatiCuisine.Entities.Client;
-import BatiCuisine.Services.ClientService;
-import BatiCuisine.utils.InputValidator;
+import Entities.Client;
+import Services.ClientService;
+import utils.InputValidator;
 
 import java.sql.SQLException;
 import java.util.List;

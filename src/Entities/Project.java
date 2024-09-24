@@ -1,5 +1,5 @@
-package BatiCuisine.Entities;
-import BatiCuisine.Enums.ProjectStatus;
+package Entities;
+import Enums.ProjectStatus;
 
 import java.util.ArrayList;
 import java.util.List;

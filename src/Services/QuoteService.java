@@ -1,7 +1,7 @@
-package BatiCuisine.Services;
+package Services;
 
-import BatiCuisine.Entities.Quote;
-import BatiCuisine.Repository.Implementation.QuoteRepository;
+import Entities.Quote;
+import Repository.Implementation.QuoteRepository;
 
 import java.util.List;
 import java.util.Optional;

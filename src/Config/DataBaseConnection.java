@@ -1,4 +1,4 @@
-package BatiCuisine.Config;
+package Config;
 
 import java.sql.Connection;
 import java.sql.DriverManager;

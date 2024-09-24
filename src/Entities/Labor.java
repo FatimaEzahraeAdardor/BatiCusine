@@ -1,4 +1,4 @@
-package BatiCuisine.Entities;
+package Entities;
 
 public class Labor extends Component {
     private int id;

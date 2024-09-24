@@ -1,9 +1,9 @@
-package BatiCuisine.Views;
+package Views;
 
-import BatiCuisine.Entities.Material;
-import BatiCuisine.Entities.Project;
-import BatiCuisine.Repository.Implementation.MaterialRepository;
-import BatiCuisine.utils.InputValidator;
+import Entities.Material;
+import Entities.Project;
+import Repository.Implementation.MaterialRepository;
+import utils.InputValidator;
 
 import java.util.Scanner;
 

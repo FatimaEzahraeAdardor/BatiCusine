@@ -1,9 +1,9 @@
-package BatiCuisine.Views;
+package Views;
 
-import BatiCuisine.Entities.Labor;
-import BatiCuisine.Entities.Project;
-import BatiCuisine.Services.LaborService;
-import BatiCuisine.utils.InputValidator;
+import Entities.Labor;
+import Entities.Project;
+import Services.LaborService;
+import utils.InputValidator;
 
 import java.util.Scanner;
 

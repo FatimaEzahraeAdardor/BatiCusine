@@ -1,11 +1,11 @@
-package BatiCuisine.Views;
+package Views;
 
-import BatiCuisine.Entities.*;
-import BatiCuisine.Enums.ProjectStatus;
-import BatiCuisine.Services.LaborService;
-import BatiCuisine.Services.MaterialService;
-import BatiCuisine.Services.ProjectService;
-import BatiCuisine.utils.InputValidator;
+import Entities.*;
+import Enums.ProjectStatus;
+import Services.LaborService;
+import Services.MaterialService;
+import Services.ProjectService;
+import utils.InputValidator;
 
 import java.util.List;
 import java.util.Scanner;

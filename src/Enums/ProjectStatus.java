@@ -1,4 +1,4 @@
-package BatiCuisine.Enums;
+package Enums;
 
 public enum ProjectStatus {
     INPROGRESS,

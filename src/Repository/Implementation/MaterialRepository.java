@@ -1,10 +1,10 @@
-package BatiCuisine.Repository.Implementation;
+package Repository.Implementation;
 
-import BatiCuisine.Config.DataBaseConnection;
-import BatiCuisine.Entities.Labor;
-import BatiCuisine.Entities.Material;
-import BatiCuisine.Entities.Project;
-import BatiCuisine.Repository.Interface.MaterialInterface;
+import Config.DataBaseConnection;
+import Entities.Labor;
+import Entities.Material;
+import Entities.Project;
+import Repository.Interface.MaterialInterface;
 
 import java.sql.*;
 import java.util.ArrayList;

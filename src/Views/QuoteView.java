@@ -1,12 +1,12 @@
-package BatiCuisine.Views;
+package Views;
 
-import BatiCuisine.Entities.Client;
-import BatiCuisine.Entities.Project;
-import BatiCuisine.Entities.Quote;
-import BatiCuisine.Enums.ProjectStatus;
-import BatiCuisine.Services.ProjectService;
-import BatiCuisine.Services.QuoteService;
-import BatiCuisine.utils.InputValidator;
+import Entities.Client;
+import Entities.Project;
+import Entities.Quote;
+import Enums.ProjectStatus;
+import Services.ProjectService;
+import Services.QuoteService;
+import utils.InputValidator;
 
 import java.time.LocalDate;
 import java.util.List;

@@ -1,6 +1,6 @@
-package BatiCuisine.Views;
+package Views;
 
-import BatiCuisine.Entities.Client;
+import Entities.Client;
 
 import java.util.Scanner;
 

@@ -1,4 +1,4 @@
-package BatiCuisine.Entities;
+package Entities;
 
 public class Material extends Component {
     private int id;

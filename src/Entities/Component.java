@@ -1,4 +1,4 @@
-package BatiCuisine.Entities;
+package Entities;
 
 public abstract class Component {
     private int id;

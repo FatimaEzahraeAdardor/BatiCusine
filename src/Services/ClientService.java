@@ -1,7 +1,7 @@
-package BatiCuisine.Services;
+package Services;
 
-import BatiCuisine.Entities.Client;
-import BatiCuisine.Repository.Implementation.ClientRepository;
+import Entities.Client;
+import Repository.Implementation.ClientRepository;
 
 import java.sql.SQLException;
 import java.util.List;

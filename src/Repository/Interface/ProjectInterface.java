@@ -1,7 +1,7 @@
-package BatiCuisine.Repository.Interface;
+package Repository.Interface;
 
-import BatiCuisine.Entities.Client;
-import BatiCuisine.Entities.Project;
+import Entities.Client;
+import Entities.Project;
 
 import java.util.List;
 import java.util.Optional;

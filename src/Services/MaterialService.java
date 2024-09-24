@@ -1,8 +1,8 @@
-package BatiCuisine.Services;
+package Services;
 
-import BatiCuisine.Entities.Material;
-import BatiCuisine.Entities.Project;
-import BatiCuisine.Repository.Implementation.MaterialRepository;
+import Entities.Material;
+import Entities.Project;
+import Repository.Implementation.MaterialRepository;
 
 import java.util.List;
 import java.util.Optional;

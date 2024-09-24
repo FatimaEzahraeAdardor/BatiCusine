@@ -1,8 +1,8 @@
-package BatiCuisine.Services;
+package Services;
 
-import BatiCuisine.Entities.Labor;
-import BatiCuisine.Entities.Project;
-import BatiCuisine.Repository.Implementation.LaborRepository;
+import Entities.Labor;
+import Entities.Project;
+import Repository.Implementation.LaborRepository;
 
 import java.util.List;
 import java.util.Optional;
